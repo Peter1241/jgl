@@ -300,6 +300,34 @@ public class Vec4f implements ReadableVec4f {
     return new Vec4f(x, y, z, w);
   }
   
+  /**
+   * Creates a unit vector along the x axis (1, 0, 0, 0).
+   */
+  public static Vec4f axisX() {
+    return new Vec4f(1, 0, 0, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the y axis (0, 1, 0, 0).
+   */
+  public static Vec4f axisY() {
+    return new Vec4f(0, 1, 0, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the z axis (0, 0, 1, 0).
+   */
+  public static Vec4f axisZ() {
+    return new Vec4f(0, 0, 1, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the z axis (0, 0, 0, 1).
+   */
+  public static Vec4f axisW() {
+    return new Vec4f(0, 0, 0, 1);
+  }
+  
   // SWIZZLING OPERATIONS
   // ==============================================================================================
   public final Vec2f xx() { return new Vec2f(x, x); }

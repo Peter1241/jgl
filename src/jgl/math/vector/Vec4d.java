@@ -300,6 +300,34 @@ public class Vec4d implements ReadableVec4d {
     return new Vec4d(x, y, z, w);
   }
   
+  /**
+   * Creates a unit vector along the x axis (1, 0, 0, 0).
+   */
+  public static Vec4d axisX() {
+    return new Vec4d(1, 0, 0, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the y axis (0, 1, 0, 0).
+   */
+  public static Vec4d axisY() {
+    return new Vec4d(0, 1, 0, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the z axis (0, 0, 1, 0).
+   */
+  public static Vec4d axisZ() {
+    return new Vec4d(0, 0, 1, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the z axis (0, 0, 0, 1).
+   */
+  public static Vec4d axisW() {
+    return new Vec4d(0, 0, 0, 1);
+  }
+  
   // SWIZZLING OPERATIONS
   // ==============================================================================================
   public final Vec2d xx() { return new Vec2d(x, x); }

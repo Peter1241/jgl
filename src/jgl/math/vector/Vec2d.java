@@ -403,6 +403,20 @@ public class Vec2d implements ReadableVec2d {
     return new Vec2d(x, y);
   }
   
+  /**
+   * Creates a unit vector along the x axis (1, 0).
+   */
+  public static Vec2d axisX() {
+    return new Vec2d(1, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the y axis (0, 1).
+   */
+  public static Vec2d axisY() {
+    return new Vec2d(0, 1);
+  }
+  
   // SWIZZLING OPERATIONS
   // ==============================================================================================
   public final Vec2d xx() { return new Vec2d(x, x); }

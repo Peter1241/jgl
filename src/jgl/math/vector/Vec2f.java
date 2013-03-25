@@ -398,6 +398,20 @@ public class Vec2f implements ReadableVec2f {
   public Vec2f copy() {
     return new Vec2f(x, y);
   }
+  
+  /**
+   * Creates a unit vector along the x axis (1, 0).
+   */
+  public static Vec2f axisX() {
+    return new Vec2f(1, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the y axis (0, 1).
+   */
+  public static Vec2f axisY() {
+    return new Vec2f(0, 1);
+  }
 
   // SWIZZLING OPERATIONS
   // ==============================================================================================

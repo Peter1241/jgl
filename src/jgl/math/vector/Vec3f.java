@@ -314,6 +314,27 @@ public class Vec3f implements ReadableVec3f {
     return new Vec3f(x, y, z);
   }
   
+  /**
+   * Creates a unit vector along the x axis (1, 0, 0).
+   */
+  public static Vec3f axisX() {
+    return new Vec3f(1, 0, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the y axis (0, 1, 0).
+   */
+  public static Vec3f axisY() {
+    return new Vec3f(0, 1, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the z axis (0, 0, 1).
+   */
+  public static Vec3f axisZ() {
+    return new Vec3f(0, 0, 1);
+  }
+  
   // SWIZZLING OPERATIONS
   // ==============================================================================================
   public final Vec2f xx() { return new Vec2f(x, x); }

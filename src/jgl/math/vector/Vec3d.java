@@ -314,6 +314,27 @@ public class Vec3d implements ReadableVec3d {
     return new Vec3d(x, y, z);
   }
   
+  /**
+   * Creates a unit vector along the x axis (1, 0, 0).
+   */
+  public static Vec3d axisX() {
+    return new Vec3d(1, 0, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the y axis (0, 1, 0).
+   */
+  public static Vec3d axisY() {
+    return new Vec3d(0, 1, 0);
+  }
+  
+  /**
+   * Creates a unit vector along the z axis (0, 0, 1).
+   */
+  public static Vec3d axisZ() {
+    return new Vec3d(0, 0, 1);
+  }
+  
   // SWIZZLING OPERATIONS
   // ==============================================================================================
   public final Vec2d xx() { return new Vec2d(x, x); }
