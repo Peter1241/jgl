@@ -27,7 +27,7 @@ public class Texture {
       this.glConstant = glConstant;
     }
   }
-
+  
   private Target target;
   private int    id = -1;
   private int    width;
@@ -65,6 +65,12 @@ public class Texture {
   public void setTarget(Target target) {
     this.target = target;
   }
+  
+  public void set(GL gl, int parameter, int value) {
+    if (id != bound)
+      bind(gl);
+    gl.glTexParameteri(target.glConstant, parameter, value);
+  }
 
   private void generate(GL gl) {
     int[] temp = new int[1];
@@ -74,8 +80,6 @@ public class Texture {
   
   public void setData2D(GL gl, int level, int internalFormat, int width, int height, int format,
       int type, Buffer data) {
-    if (id == -1)
-      generate(gl);
     if (id != bound)
       bind(gl);
     this.width = width;
@@ -103,6 +107,8 @@ public class Texture {
    * Binds this texture object to it's target.
    */
   public void bind(GL gl) {
+    if (id == -1)
+      generate(gl);
     gl.glBindTexture(target.glConstant, id);
     bound = id;
   }

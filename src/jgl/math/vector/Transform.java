@@ -113,7 +113,7 @@ public final class Transform {
   /**
    * A rotation matrix around the u-axis with length 1.
    */
-  public static Mat4f rotation(ReadableVec3f u, float radians) {
+  public static Mat4f rotation(ReadableVec3f u, double radians) {
     return rotation(u.x(), u.y(), u.z(), radians);
   }
 

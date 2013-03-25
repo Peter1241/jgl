@@ -27,8 +27,9 @@ public class PlaneGeometry extends Geometry {
     vertices = FloatBuffer.allocate(numVerts * 3);
     normals = FloatBuffer.allocate(numVerts * 3);
     texCoords = FloatBuffer.allocate(numVerts * 2);
-    faces = IntBuffer.allocate(xSegments * ySegments * 6);
-
+    indices = IntBuffer.allocate(xSegments * ySegments * 6);
+    type = Geometry.PrimitiveType.TRIANGLES;
+    
     Vec3f z = x.cross(y);
     Vec3f bottomLeft = x.times(-xSize / 2).plus(y.times(-ySize / 2));
 
@@ -52,12 +53,12 @@ public class PlaneGeometry extends Geometry {
         texCoords.put(normalizedY);
 
         if (ix < xSegments && iy < ySegments) {
-          faces.put(i);
-          faces.put(i + 1);
-          faces.put(i + 2 + xSegments);
-          faces.put(i);
-          faces.put(i + 2 + xSegments);
-          faces.put(i + 1 + xSegments);
+          indices.put(i);
+          indices.put(i + 1);
+          indices.put(i + 2 + xSegments);
+          indices.put(i);
+          indices.put(i + 2 + xSegments);
+          indices.put(i + 1 + xSegments);
         }
         i++;
       }
@@ -66,14 +67,6 @@ public class PlaneGeometry extends Geometry {
     vertices.rewind();
     normals.rewind();
     texCoords.rewind();
-    faces.rewind();
-  }
-  
-  public int numFaces() {
-    return faces.capacity() / 3;
-  }
-  
-  public int numVertices() {
-    return vertices.capacity() / 3;
+    indices.rewind();
   }
 }

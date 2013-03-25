@@ -39,12 +39,13 @@ public class BoxGeometry extends Geometry {
         xSegments, ySegments);
 
     int numVerts = 2 * (posX.numVertices() + posY.numVertices() + posZ.numVertices());
-    int numFaces = 2 * (posX.numFaces() + posY.numFaces() + posZ.numFaces());
+    int numIndices = 2 * (posX.numPrimitives() + posY.numPrimitives() + posZ.numPrimitives());
     vertices = FloatBuffer.allocate(numVerts * 3);
     normals = FloatBuffer.allocate(numVerts * 3);
     texCoords = FloatBuffer.allocate(numVerts * 2);
-    faces = IntBuffer.allocate(numFaces * 6);
-
+    indices = IntBuffer.allocate(numIndices * 6);
+    type = posX.type;
+    
     addGeometry(posX, new Vec3f(xSize / 2, 0, 0));
     addGeometry(negX, new Vec3f(-xSize / 2, 0, 0));
     addGeometry(posY, new Vec3f(0, ySize / 2, 0));
@@ -55,7 +56,7 @@ public class BoxGeometry extends Geometry {
     vertices.rewind();
     normals.rewind();
     texCoords.rewind();
-    faces.rewind();
+    indices.rewind();
   }
 
   /**
@@ -88,7 +89,7 @@ public class BoxGeometry extends Geometry {
       vertices.put(plane.vertices.get() + vertexOffset.z);
     }
 
-    while (plane.faces.hasRemaining())
-      faces.put(plane.faces.get() + faceOffset);
+    while (plane.indices.hasRemaining())
+      indices.put(plane.indices.get() + faceOffset);
   }
 }
