@@ -4,6 +4,8 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import java.nio.DoubleBuffer;
+
 /**
  * 3D point/vector with double components.
  * 
@@ -298,6 +300,14 @@ public class Vec4d implements ReadableVec4d {
   @Override
   public Vec4d copy() {
     return new Vec4d(x, y, z, w);
+  }
+  
+  @Override
+  public void buffer(DoubleBuffer buf) {
+    buf.put(x);
+    buf.put(y);
+    buf.put(z);
+    buf.put(w);
   }
   
   /**

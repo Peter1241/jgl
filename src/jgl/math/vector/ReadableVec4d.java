@@ -4,6 +4,8 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import java.nio.DoubleBuffer;
+
 /**
  * Immutable interface for a Vec4d.
  * 
@@ -125,4 +127,9 @@ public interface ReadableVec4d extends Swizzle4<Vec2d, Vec3d, Vec4d> {
    *  A copy of the vector that is mutable.
    */
   Vec4d copy();
+  
+  /**
+   * Adds this vector's components to the end of a buffer.
+   */
+  void buffer(DoubleBuffer buf);
 }

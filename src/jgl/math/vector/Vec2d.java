@@ -4,6 +4,8 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import java.nio.DoubleBuffer;
+
 class Swizzle {
   
 }
@@ -401,6 +403,12 @@ public class Vec2d implements ReadableVec2d {
   @Override
   public Vec2d copy() {
     return new Vec2d(x, y);
+  }
+  
+  @Override
+  public void buffer(DoubleBuffer buf) {
+    buf.put(x);
+    buf.put(y);
   }
   
   /**

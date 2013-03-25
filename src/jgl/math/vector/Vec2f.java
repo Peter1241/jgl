@@ -4,6 +4,8 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import java.nio.FloatBuffer;
+
 /**
  * 2D point/vector with float components.
  * 
@@ -236,7 +238,7 @@ public class Vec2f implements ReadableVec2f {
     y = v.y;
     return this;
   }
-
+  
   @Override
   public float x() {
     return x;
@@ -397,6 +399,12 @@ public class Vec2f implements ReadableVec2f {
   @Override
   public Vec2f copy() {
     return new Vec2f(x, y);
+  }
+  
+  @Override
+  public void buffer(FloatBuffer buf) {
+    buf.put(x);
+    buf.put(y);
   }
   
   /**

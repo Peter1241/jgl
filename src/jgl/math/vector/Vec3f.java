@@ -4,6 +4,8 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import java.nio.FloatBuffer;
+
 /**
  * 3D point/vector with float components.
  * 
@@ -312,6 +314,13 @@ public class Vec3f implements ReadableVec3f {
   @Override
   public Vec3f copy() {
     return new Vec3f(x, y, z);
+  }
+  
+  @Override
+  public void buffer(FloatBuffer buf) {
+    buf.put(x);
+    buf.put(y);
+    buf.put(z);
   }
   
   /**

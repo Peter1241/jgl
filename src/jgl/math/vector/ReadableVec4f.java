@@ -4,6 +4,8 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import java.nio.FloatBuffer;
+
 /**
  * Immutable interface for a Vec4f.
  * 
@@ -125,4 +127,9 @@ public interface ReadableVec4f extends Swizzle4<Vec2f, Vec3f, Vec4f> {
    *  A copy of the vector that is mutable.
    */
   Vec4f copy();
+  
+  /**
+   * Adds this vector's components to the end of a buffer.
+   */
+  void buffer(FloatBuffer buf);
 }

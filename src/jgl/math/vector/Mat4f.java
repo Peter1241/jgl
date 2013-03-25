@@ -103,17 +103,20 @@ public class Mat4f {
   }
 
   /**
-   * Multiplication with a point (w = 1) or vector (w = 0). Returns a new vector.
-   */
-  public Vec4f times(ReadableVec3f v, float w) {
-    return times(v.x(), v.y(), v.z(), w);
-  }
-
-  /**
    * Multiplication with (v.x, v.y, v.z, v.w). Returns a new vector.
    */
   public Vec4f times(ReadableVec4f v) {
     return times(v.x(), v.y(), v.z(), v.w());
+  }
+  
+  /**
+   * Multiplication with (v.x, v.y, v.z, 0). Returns a new vector.
+   */
+  public Vec3f times(ReadableVec3f v) {
+    float vx = v.x() * a[0] + v.y() * a[4] + v.z() * a[8];
+    float vy = v.x() * a[1] + v.y() * a[5] + v.z() * a[9];
+    float vz = v.x() * a[2] + v.y() * a[6] + v.z() * a[10];
+    return new Vec3f(vx, vy, vz);
   }
 
   /**
