@@ -1,3 +1,7 @@
+/*******************************************************************************
+ *  Copyright (C) 2013 Justin Stoecker
+ *  The MIT License. See LICENSE in project root.
+ *******************************************************************************/
 package jgl.scene.geometry;
 
 import java.nio.FloatBuffer;
@@ -24,11 +28,8 @@ public class PlaneGeometry extends Geometry {
    */
   public PlaneGeometry(Vec3f x, Vec3f y, float xSize, float ySize, int xSegments, int ySegments) {
     int numVerts = (xSegments + 1) * (ySegments + 1);
-    vertices = FloatBuffer.allocate(numVerts * 3);
-    normals = FloatBuffer.allocate(numVerts * 3);
-    texCoords = FloatBuffer.allocate(numVerts * 2);
-    indices = IntBuffer.allocate(xSegments * ySegments * 6);
-    type = Geometry.PrimitiveType.TRIANGLES;
+    int numIndices = xSegments * ySegments * 6;
+    init(numVerts, numIndices, Geometry.PrimitiveType.TRIANGLES);
     
     Vec3f z = x.cross(y);
     Vec3f bottomLeft = x.times(-xSize / 2).plus(y.times(-ySize / 2));
@@ -64,9 +65,6 @@ public class PlaneGeometry extends Geometry {
       }
     }
 
-    vertices.rewind();
-    normals.rewind();
-    texCoords.rewind();
-    indices.rewind();
+    rewindBuffers();
   }
 }

@@ -1,6 +1,8 @@
+/*******************************************************************************
+ *  Copyright (C) 2013 Justin Stoecker
+ *  The MIT License. See LICENSE in project root.
+ *******************************************************************************/
 package jgl.scene.geometry;
-
-import java.nio.FloatBuffer;
 
 import jgl.math.vector.Mat4f;
 import jgl.math.vector.Transform;
@@ -17,23 +19,19 @@ public class CircleGeometry extends Geometry {
   /**
    * Creates a filled circle.
    * 
-   * @param x
-   * @param y
-   * @param radius
-   * @param segments
+   * @param x - axis 1.
+   * @param y - axis 2.
+   * @param radius - radius of the circle.
+   * @param segments - number of segments in the circle.
    */
   public CircleGeometry(Vec3f x, Vec3f y, float radius, int segments) {
 
-    int numVerts = segments + 2;
-    vertices = FloatBuffer.allocate(numVerts * 3);
-    normals = FloatBuffer.allocate(numVerts * 3);
-    texCoords = FloatBuffer.allocate(numVerts * 2);
-    type = Geometry.PrimitiveType.TRIANGLE_FAN;
-    
+    init(segments + 2, 0, Geometry.PrimitiveType.TRIANGLE_FAN);
+
     Vec3f z = x.cross(y);
     Mat4f m = Transform.rotation(z, Math.PI * 2.0 / segments);
     Vec4f v = new Vec4f(x.x * radius, x.y * radius, x.z * radius, 0);
-    
+
     vertices.put(0);
     vertices.put(0);
     vertices.put(0);
@@ -42,7 +40,7 @@ public class CircleGeometry extends Geometry {
     normals.put(z.z);
     texCoords.put(0);
     texCoords.put(0);
-    
+
     for (int i = 0; i <= segments; i++) {
       vertices.put(v.x);
       vertices.put(v.y);
@@ -50,54 +48,56 @@ public class CircleGeometry extends Geometry {
       normals.put(z.x);
       normals.put(z.y);
       normals.put(z.z);
-      texCoords.put((float)i/segments);
+      texCoords.put((float) i / segments);
       texCoords.put(1);
-      
+
       v = m.times(v);
     }
-    
-    vertices.rewind();
-    normals.rewind();
-    texCoords.rewind();
+
+    rewindBuffers();
   }
 
   /**
-   * Creates a circle with a hole in the middle.
+   * Creates a circle with inner and outer radii (not filled).
    * 
-   * @param x
-   * @param y
+   * @param x - axis 1.
+   * @param y - axis 2.
    * @param innerRadius
    * @param outerRadius
    * @param segments
    */
   public CircleGeometry(Vec3f x, Vec3f y, float innerRadius, float outerRadius, int segments) {
 
+    init((segments+1) * 2, 0, Geometry.PrimitiveType.TRIANGLE_STRIP);
+    
     Vec3f z = x.cross(y);
-
     Mat4f m = Transform.rotation(z, Math.PI * 2.0 / segments);
     Vec4f v = new Vec4f(x.x, x.y, x.z, 0);
 
     for (int i = 0; i <= segments; i++) {
-
-      // triangle strip
-
       float progress = (float) i / segments;
-
-      // inner
-      vertices.put(v.x);
-      vertices.put(v.y);
-      vertices.put(v.z);
+      
+      vertices.put(v.x * innerRadius);
+      vertices.put(v.y * innerRadius);
+      vertices.put(v.z * innerRadius);
       normals.put(z.x);
       normals.put(z.y);
       normals.put(z.z);
       texCoords.put(progress);
       texCoords.put(0);
 
-      // outer
+      vertices.put(v.x * outerRadius);
+      vertices.put(v.y * outerRadius);
+      vertices.put(v.z * outerRadius);
+      normals.put(z.x);
+      normals.put(z.y);
+      normals.put(z.z);
       texCoords.put(progress);
-      texCoords.put(1);
+      texCoords.put(0);
 
       v = m.times(v);
     }
+    
+    rewindBuffers();
   }
 }

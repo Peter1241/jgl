@@ -1,7 +1,8 @@
+/*******************************************************************************
+ *  Copyright (C) 2013 Justin Stoecker
+ *  The MIT License. See LICENSE in project root.
+ *******************************************************************************/
 package jgl.scene.geometry;
-
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 
 import jgl.math.vector.Vec3f;
 
@@ -39,12 +40,8 @@ public class BoxGeometry extends Geometry {
         xSegments, ySegments);
 
     int numVerts = 2 * (posX.numVertices() + posY.numVertices() + posZ.numVertices());
-    int numIndices = 2 * (posX.numPrimitives() + posY.numPrimitives() + posZ.numPrimitives());
-    vertices = FloatBuffer.allocate(numVerts * 3);
-    normals = FloatBuffer.allocate(numVerts * 3);
-    texCoords = FloatBuffer.allocate(numVerts * 2);
-    indices = IntBuffer.allocate(numIndices * 6);
-    type = posX.type;
+    int numIndices = 12 * (posX.numPrimitives() + posY.numPrimitives() + posZ.numPrimitives());
+    init(numVerts, numIndices, posX.type);
     
     addGeometry(posX, new Vec3f(xSize / 2, 0, 0));
     addGeometry(negX, new Vec3f(-xSize / 2, 0, 0));
@@ -53,10 +50,7 @@ public class BoxGeometry extends Geometry {
     addGeometry(posZ, new Vec3f(0, 0, zSize / 2));
     addGeometry(negZ, new Vec3f(0, 0, -zSize / 2));
 
-    vertices.rewind();
-    normals.rewind();
-    texCoords.rewind();
-    indices.rewind();
+    rewindBuffers();
   }
 
   /**

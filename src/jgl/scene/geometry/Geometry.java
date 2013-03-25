@@ -1,3 +1,7 @@
+/*******************************************************************************
+ *  Copyright (C) 2013 Justin Stoecker
+ *  The MIT License. See LICENSE in project root.
+ *******************************************************************************/
 package jgl.scene.geometry;
 
 import java.nio.Buffer;
@@ -36,6 +40,27 @@ public abstract class Geometry {
   public IntBuffer     indices;
   public PrimitiveType type;
 
+  protected void init(int numVertices, int numIndices, PrimitiveType type) {
+    this.type = type;
+    
+    // each vertex position & normal has 3 values: x, y, z
+    vertices = FloatBuffer.allocate(numVertices * 3);
+    normals = FloatBuffer.allocate(numVertices * 3);
+    // each vertex texture coordinate has 2 values: u, v
+    texCoords = FloatBuffer.allocate(numVertices * 2);
+    
+    if (numIndices > 0)
+      indices = IntBuffer.allocate(numIndices);
+  }
+
+  protected void rewindBuffers() {
+    vertices.rewind();
+    normals.rewind();
+    texCoords.rewind();
+    if (indices != null)
+      indices.rewind();
+  }
+
   /**
    * Calculates the number of primitives (points, lines, or triangles) in the geometry.
    */
@@ -67,7 +92,7 @@ public abstract class Geometry {
   public int numVertices() {
     return vertices.capacity() / 3;
   }
-  
+
   /**
    * The number of indices in the geometry.
    */
@@ -94,12 +119,7 @@ public abstract class Geometry {
     }
     gl.glEnd();
 
-    vertices.rewind();
-    normals.rewind();
-    if (texCoords != null)
-      texCoords.rewind();
-    if (indices != null)
-      indices.rewind();
+    rewindBuffers();
   }
 
   private void drawImmediateVertex(GL2 gl, int i) {
@@ -107,8 +127,7 @@ public abstract class Geometry {
     texCoords.position(i * 2);
     vertices.position(i * 3);
     gl.glNormal3fv(normals);
-    if (texCoords != null)
-      gl.glTexCoord2fv(texCoords);
+    gl.glTexCoord2fv(texCoords);
     gl.glVertex3fv(vertices);
   }
 }
