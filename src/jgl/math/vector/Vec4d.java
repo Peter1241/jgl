@@ -303,7 +303,7 @@ public class Vec4d implements ReadableVec4d {
   }
   
   @Override
-  public void buffer(DoubleBuffer buf) {
+  public void putInto(DoubleBuffer buf) {
     buf.put(x);
     buf.put(y);
     buf.put(z);

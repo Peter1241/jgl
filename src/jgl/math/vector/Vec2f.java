@@ -402,7 +402,7 @@ public class Vec2f implements ReadableVec2f {
   }
   
   @Override
-  public void buffer(FloatBuffer buf) {
+  public void putInto(FloatBuffer buf) {
     buf.put(x);
     buf.put(y);
   }

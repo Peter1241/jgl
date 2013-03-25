@@ -11,6 +11,9 @@ import java.nio.IntBuffer;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
+import jgl.math.vector.Vec2f;
+import jgl.math.vector.Vec3f;
+
 /**
  * Stores geometry data: vertex positions, normals, texture coordinates, and face indices.
  * 
@@ -42,13 +45,13 @@ public abstract class Geometry {
 
   protected void init(int numVertices, int numIndices, PrimitiveType type) {
     this.type = type;
-    
+
     // each vertex position & normal has 3 values: x, y, z
     vertices = FloatBuffer.allocate(numVertices * 3);
     normals = FloatBuffer.allocate(numVertices * 3);
     // each vertex texture coordinate has 2 values: u, v
     texCoords = FloatBuffer.allocate(numVertices * 2);
-    
+
     if (numIndices > 0)
       indices = IntBuffer.allocate(numIndices);
   }
@@ -106,15 +109,54 @@ public abstract class Geometry {
   public boolean isIndexed() {
     return indices != null;
   }
+  
+  /**
+   * Gets the next vertex from the geometry, or null if there are no more.
+   */
+  public Vec3f nextVertex() {
+    if (!vertices.hasRemaining())
+      return null;
+    return new Vec3f(vertices.get(), vertices.get(), vertices.get());
+  }
+  
+  /**
+   * Gets the next normal from the geometry, or null if there are no more.
+   */
+  public Vec3f nextNormal() {
+    if (!normals.hasRemaining())
+      return null;
+    return new Vec3f(normals.get(), normals.get(), normals.get());
+  }
+  
+  /**
+   * Gets the next texture coordinate from the geometry, or null if there are no more.
+   */
+  public Vec2f nextTexCoord() {
+    if (!texCoords.hasRemaining())
+      return null;
+    return new Vec2f(texCoords.get(), texCoords.get());
+  }
+  
+  public Vec3f getVertex(int i) {
+    float[] xyz = new float[3];
+    vertices.position(i * 3);
+    vertices.get(xyz, i * 3, 3);
+    vertices.rewind();
+    return new Vec3f(xyz);
+  }
 
+  /**
+   * Renders the geometry using immediate mode OpenGL. Useful for quick testing, but deprecated in
+   * newer versions of OpenGL.
+   */
   public void drawImmediate(GL2 gl) {
     gl.glBegin(type.value);
     if (isIndexed()) {
       for (int i = 0; i < numIndices(); i++)
-        drawImmediateVertex(gl, indices.get());
+        immedateVertex(gl, indices.get());
     } else {
       for (int i = 0; i < numVertices(); i++) {
-        drawImmediateVertex(gl, i);
+        immedateVertex(gl, i);
       }
     }
     gl.glEnd();
@@ -122,7 +164,7 @@ public abstract class Geometry {
     rewindBuffers();
   }
 
-  private void drawImmediateVertex(GL2 gl, int i) {
+  private void immedateVertex(GL2 gl, int i) {
     normals.position(i * 3);
     texCoords.position(i * 2);
     vertices.position(i * 3);

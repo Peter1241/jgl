@@ -317,7 +317,7 @@ public class Vec3d implements ReadableVec3d {
   }
   
   @Override
-  public void buffer(DoubleBuffer buf) {
+  public void putInto(DoubleBuffer buf) {
     buf.put(x);
     buf.put(y);
     buf.put(z);

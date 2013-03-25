@@ -4,9 +4,6 @@
  *******************************************************************************/
 package jgl.scene.geometry;
 
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
 import jgl.math.vector.Vec3f;
 
 /**
@@ -44,12 +41,8 @@ public class PlaneGeometry extends Geometry {
         p.add(x.times(normalizedX * xSize));
         p.add(y.times(normalizedY * ySize));
         
-        vertices.put(p.x);
-        vertices.put(p.y);
-        vertices.put(p.z);
-        normals.put(z.x);
-        normals.put(z.y);
-        normals.put(z.z);
+        p.putInto(vertices);
+        z.putInto(normals);
         texCoords.put(normalizedX);
         texCoords.put(normalizedY);
 

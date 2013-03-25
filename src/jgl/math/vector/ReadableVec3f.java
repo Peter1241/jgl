@@ -137,5 +137,5 @@ public interface ReadableVec3f extends Swizzle3<Vec2f, Vec3f> {
   /**
    * Adds this vector's components to the end of a buffer.
    */
-  void buffer(FloatBuffer buf);
+  void putInto(FloatBuffer buf);
 }

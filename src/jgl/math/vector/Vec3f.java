@@ -317,7 +317,7 @@ public class Vec3f implements ReadableVec3f {
   }
   
   @Override
-  public void buffer(FloatBuffer buf) {
+  public void putInto(FloatBuffer buf) {
     buf.put(x);
     buf.put(y);
     buf.put(z);

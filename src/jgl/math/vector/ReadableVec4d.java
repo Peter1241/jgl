@@ -131,5 +131,5 @@ public interface ReadableVec4d extends Swizzle4<Vec2d, Vec3d, Vec4d> {
   /**
    * Adds this vector's components to the end of a buffer.
    */
-  void buffer(DoubleBuffer buf);
+  void putInto(DoubleBuffer buf);
 }

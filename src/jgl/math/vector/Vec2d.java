@@ -406,7 +406,7 @@ public class Vec2d implements ReadableVec2d {
   }
   
   @Override
-  public void buffer(DoubleBuffer buf) {
+  public void putInto(DoubleBuffer buf) {
     buf.put(x);
     buf.put(y);
   }

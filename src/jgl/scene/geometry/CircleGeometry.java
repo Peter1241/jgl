@@ -5,9 +5,9 @@
 package jgl.scene.geometry;
 
 import jgl.math.vector.Mat4f;
+import jgl.math.vector.ReadableVec3f;
 import jgl.math.vector.Transform;
 import jgl.math.vector.Vec3f;
-import jgl.math.vector.Vec4f;
 
 /**
  * Creates a triangulated circle.
@@ -19,39 +19,32 @@ public class CircleGeometry extends Geometry {
   /**
    * Creates a filled circle.
    * 
-   * @param x - axis 1.
-   * @param y - axis 2.
+   * @param start - starting axis in the circle plane.
+   * @param normal - normal vector to the circle plane.
    * @param radius - radius of the circle.
    * @param segments - number of segments in the circle.
    */
-  public CircleGeometry(Vec3f x, Vec3f y, float radius, int segments) {
+  public CircleGeometry(ReadableVec3f start, ReadableVec3f normal, float radius,  int segments) {
 
     init(segments + 2, 0, Geometry.PrimitiveType.TRIANGLE_FAN);
 
-    Vec3f z = x.cross(y);
-    Mat4f m = Transform.rotation(z, Math.PI * 2.0 / segments);
-    Vec4f v = new Vec4f(x.x * radius, x.y * radius, x.z * radius, 0);
+    Mat4f m = Transform.rotation(normal, Math.PI * 2.0 / segments);
+    Vec3f p = start.times(radius);
 
     vertices.put(0);
     vertices.put(0);
     vertices.put(0);
-    normals.put(z.x);
-    normals.put(z.y);
-    normals.put(z.z);
+    normal.putInto(normals);
     texCoords.put(0);
     texCoords.put(0);
 
     for (int i = 0; i <= segments; i++) {
-      vertices.put(v.x);
-      vertices.put(v.y);
-      vertices.put(v.z);
-      normals.put(z.x);
-      normals.put(z.y);
-      normals.put(z.z);
+      p.putInto(vertices);
+      normal.putInto(normals);
       texCoords.put((float) i / segments);
       texCoords.put(1);
 
-      v = m.times(v);
+      p = m.times(p);
     }
 
     rewindBuffers();
@@ -60,44 +53,59 @@ public class CircleGeometry extends Geometry {
   /**
    * Creates a circle with inner and outer radii (not filled).
    * 
-   * @param x - axis 1.
-   * @param y - axis 2.
+   * @param start - starting axis in the circle plane.
+   * @param normal - normal vector to the circle plane.
    * @param innerRadius
    * @param outerRadius
    * @param segments
    */
-  public CircleGeometry(Vec3f x, Vec3f y, float innerRadius, float outerRadius, int segments) {
+  public CircleGeometry(ReadableVec3f start, ReadableVec3f normal, float innerRadius, float outerRadius, int segments) {
 
     init((segments+1) * 2, 0, Geometry.PrimitiveType.TRIANGLE_STRIP);
     
-    Vec3f z = x.cross(y);
-    Mat4f m = Transform.rotation(z, Math.PI * 2.0 / segments);
-    Vec4f v = new Vec4f(x.x, x.y, x.z, 0);
+    Mat4f m = Transform.rotation(normal, Math.PI * 2.0 / segments);
+    Vec3f p = start.copy();
 
     for (int i = 0; i <= segments; i++) {
       float progress = (float) i / segments;
       
-      vertices.put(v.x * innerRadius);
-      vertices.put(v.y * innerRadius);
-      vertices.put(v.z * innerRadius);
-      normals.put(z.x);
-      normals.put(z.y);
-      normals.put(z.z);
+      p.times(innerRadius).putInto(vertices);
+      normal.putInto(normals);
       texCoords.put(progress);
       texCoords.put(0);
 
-      vertices.put(v.x * outerRadius);
-      vertices.put(v.y * outerRadius);
-      vertices.put(v.z * outerRadius);
-      normals.put(z.x);
-      normals.put(z.y);
-      normals.put(z.z);
+      p.times(outerRadius).putInto(vertices);
+      normal.putInto(normals);
       texCoords.put(progress);
       texCoords.put(0);
 
-      v = m.times(v);
+      p = m.times(p);
     }
     
     rewindBuffers();
+  }
+  
+  public static CircleGeometry aroundX(float radius,  int segments) {
+    return new CircleGeometry(new Vec3f(0, 0, -1), Vec3f.axisX(), radius, segments);
+  }
+  
+  public static CircleGeometry aroundX(float innerRadius, float outerRadius, int segments) {
+    return new CircleGeometry(new Vec3f(0, 0, -1), Vec3f.axisX(), innerRadius, outerRadius, segments);
+  }
+  
+  public static CircleGeometry aroundY(float radius,  int segments) {
+    return new CircleGeometry(Vec3f.axisX(), Vec3f.axisY(), radius, segments);
+  }
+  
+  public static CircleGeometry aroundY(float innerRadius, float outerRadius, int segments) {
+    return new CircleGeometry(Vec3f.axisX(), Vec3f.axisY(), innerRadius, outerRadius, segments);
+  }
+  
+  public static CircleGeometry aroundZ(float radius, int segments) {
+    return new CircleGeometry(Vec3f.axisX(), Vec3f.axisZ(), radius, segments);
+  }
+  
+  public static CircleGeometry aroundZ(float innerRadius, float outerRadius, int segments) {
+    return new CircleGeometry(Vec3f.axisX(), Vec3f.axisZ(), innerRadius, outerRadius, segments);
   }
 }

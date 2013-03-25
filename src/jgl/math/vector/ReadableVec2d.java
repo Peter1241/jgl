@@ -177,5 +177,5 @@ public interface ReadableVec2d extends Swizzle2<Vec2d> {
   /**
    * Adds this vector's components to the end of a buffer.
    */
-  void buffer(DoubleBuffer buf);
+  void putInto(DoubleBuffer buf);
 }
