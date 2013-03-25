@@ -30,8 +30,6 @@ public class PlaneGeometry extends Geometry {
     faces = IntBuffer.allocate(xSegments * ySegments * 6);
 
     Vec3f z = x.cross(y);
-    float stepX = xSize / xSegments;
-    float stepY = ySize / ySegments;
     Vec3f bottomLeft = x.times(-xSize / 2).plus(y.times(-ySize / 2));
 
     int i = 0;
@@ -39,7 +37,11 @@ public class PlaneGeometry extends Geometry {
       float normalizedY = (float) iy / ySegments;
       for (int ix = 0; ix <= xSegments; ix++) {
         float normalizedX = (float) ix / xSegments;
-        Vec3f p = bottomLeft.plus(x.times(ix * stepX)).plus(y.times(iy * stepY));
+        
+        Vec3f p = bottomLeft.copy();
+        p.add(x.times(normalizedX * xSize));
+        p.add(y.times(normalizedY * ySize));
+        
         vertices.put(p.x);
         vertices.put(p.y);
         vertices.put(p.z);
@@ -65,5 +67,13 @@ public class PlaneGeometry extends Geometry {
     normals.rewind();
     texCoords.rewind();
     faces.rewind();
+  }
+  
+  public int numFaces() {
+    return faces.capacity() / 3;
+  }
+  
+  public int numVertices() {
+    return vertices.capacity() / 3;
   }
 }
