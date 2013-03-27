@@ -60,4 +60,13 @@ public class PlaneGeometry extends Geometry {
 
     rewindBuffers();
   }
+  
+  
+  public static PlaneGeometry aroundZ(float xSize, float ySize, int xSegments, int ySegments) {
+    return new PlaneGeometry(Vec3f.axisX(), Vec3f.axisY(), xSize, ySize, xSegments, ySegments);
+  }
+  
+  public static PlaneGeometry aroundZ(float xSize, float ySize) {
+    return new PlaneGeometry(Vec3f.axisX(), Vec3f.axisY(), xSize, ySize, 1, 1);
+  }
 }
