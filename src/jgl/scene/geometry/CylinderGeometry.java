@@ -20,7 +20,7 @@ public class CylinderGeometry extends Geometry {
    * Creates a hollow cylinder (tube).
    */
   public CylinderGeometry(ReadableVec3f start, ReadableVec3f direction, float innerRadius,
-      float outerRadius, float height, int radialSegments, int heightSegments) {
+      float outerRadius, float length, int radialSegments, int lengthSegments) {
 
     Vec3f p = start.copy();
     Mat4f m = Transform.rotation(direction, Math.PI * 2.0 / radialSegments);
@@ -32,13 +32,13 @@ public class CylinderGeometry extends Geometry {
       p = m.times(p);
     }
 
-    int numVerts = (4 + 2 * heightSegments) * basePositions.length;
-    int numIndices = (2 + 2 * heightSegments) * (6 * radialSegments);
+    int numVerts = (4 + 2 * lengthSegments) * basePositions.length;
+    int numIndices = (2 + 2 * lengthSegments) * (6 * radialSegments);
     init(numVerts, numIndices, Geometry.PrimitiveType.TRIANGLES);
 
     // top
     int[] baseIndices = { 0, 1, 3, 0, 3, 2 };
-    Vec3f offset = direction.times(height / 2);
+    Vec3f offset = direction.times(length / 2);
     for (int i = 0; i < basePositions.length; i++) {
       basePositions[i].plus(offset).putInto(vertices);
       direction.putInto(normals);
@@ -67,8 +67,8 @@ public class CylinderGeometry extends Geometry {
 
     // outside
     int vertsAdded = basePositions.length * 2;
-    Vec3f step = direction.times(height / heightSegments);
-    for (int i = 0; i < heightSegments; i++) {
+    Vec3f step = direction.times(length / lengthSegments);
+    for (int i = 0; i < lengthSegments; i++) {
       for (int j = 0; j < radialSegments; j++) {
         int j2 = j * 2;
         basePositions[1 + j2].plus(offset).putInto(vertices);
@@ -84,8 +84,8 @@ public class CylinderGeometry extends Geometry {
     }
 
     // inside
-    offset = direction.times(height / 2);
-    for (int i = 0; i < heightSegments; i++) {
+    offset = direction.times(length / 2);
+    for (int i = 0; i < lengthSegments; i++) {
       for (int j = 0; j < radialSegments; j++) {
         int j2 = j * 2;
         basePositions[j2].plus(offset).putInto(vertices);
@@ -110,10 +110,10 @@ public class CylinderGeometry extends Geometry {
    * Creates a cylinder.
    */
   public CylinderGeometry(ReadableVec3f start, ReadableVec3f direction, float radius, float length,
-      boolean capped, int radialSegments, int heightSegments) {
+      boolean capped, int radialSegments, int lengthSegments) {
 
-    int numVerts = radialSegments * (heightSegments + 1);
-    int numIndices = 6 * radialSegments * heightSegments;
+    int numVerts = radialSegments * (lengthSegments + 1);
+    int numIndices = 6 * radialSegments * lengthSegments;
     if (capped) {
       numVerts += radialSegments * 2;
       numIndices += (radialSegments - 2) * 6;
@@ -128,20 +128,20 @@ public class CylinderGeometry extends Geometry {
       v = m.times(v);
     }
     
-    Vec3f step = direction.times(length / heightSegments);
+    Vec3f step = direction.times(length / lengthSegments);
     Vec3f offset = direction.times(-length / 2);
     int indexOffset = 0;
-    for (int iy = 0; iy <= heightSegments; iy++) {
-      float normalizedY = (float)iy / heightSegments;
+    for (int iy = 0; iy <= lengthSegments; iy++) {
+      float normalizedY = (float)iy / lengthSegments;
       for (int ix = 0; ix < radialSegments; ix++) {
         
         float normalizedX = (float) ix / radialSegments;
-        basePositions[ix].plus(offset).times(radius).putInto(vertices);
-        basePositions[ix].plus(offset).putInto(normals);
+        basePositions[ix].times(radius).plus(offset).putInto(vertices);
+        basePositions[ix].putInto(normals);
         texCoords.put(normalizedX);
         texCoords.put(normalizedY);
         
-        if (iy < heightSegments) {
+        if (iy < lengthSegments) {
           int cx = ix + indexOffset;
           int nx = (ix + 1) % radialSegments + indexOffset;
           indices.put(cx);
@@ -163,7 +163,7 @@ public class CylinderGeometry extends Geometry {
       
       // top
       for (int i = 0; i < basePositions.length; i++) {
-        basePositions[i].plus(offset).times(radius).putInto(vertices);
+        basePositions[i].times(radius).plus(offset).putInto(vertices);
         direction.putInto(normals);
         if (i < basePositions.length - 2) {
           indices.put(indexOffset);
@@ -175,7 +175,7 @@ public class CylinderGeometry extends Geometry {
       
       // bottom
       for (int i = 0; i < basePositions.length; i++) {
-        basePositions[i].minus(offset).times(radius).putInto(vertices);
+        basePositions[i].times(radius).minus(offset).putInto(vertices);
         direction.times(-1).putInto(normals);
         if (i < basePositions.length - 2) {
           indices.put(indexOffset);
@@ -187,5 +187,53 @@ public class CylinderGeometry extends Geometry {
     }
 
     rewindBuffers();
+  }
+  
+  public static CylinderGeometry aroundX(float radius, float length, boolean capped, int radialSegments, int lengthSegments) {
+    return new CylinderGeometry(Vec3f.axisZ(), Vec3f.axisX(), radius, length, capped, radialSegments, lengthSegments);
+  }
+
+  public static CylinderGeometry aroundX(float radius, float length, boolean capped, int radialSegments) {
+    return new CylinderGeometry(Vec3f.axisZ(), Vec3f.axisX(), radius, length, capped, radialSegments, 1);
+  }
+
+  public static CylinderGeometry aroundY(float radius, float length, boolean capped, int radialSegments, int lengthSegments) {
+    return new CylinderGeometry(Vec3f.axisX(), Vec3f.axisY(), radius, length, capped, radialSegments, lengthSegments);
+  }
+
+  public static CylinderGeometry aroundY(float radius, float length, boolean capped, int radialSegments) {
+    return new CylinderGeometry(Vec3f.axisX(), Vec3f.axisY(), radius, length, capped, radialSegments, 1);
+  }
+  
+  public static CylinderGeometry aroundZ(float radius, float length, boolean capped, int radialSegments, int lengthSegments) {
+    return new CylinderGeometry(Vec3f.axisX(), Vec3f.axisZ(), radius, length, capped, radialSegments, lengthSegments);
+  }
+
+  public static CylinderGeometry aroundZ(float radius, float length, boolean capped, int radialSegments) {
+    return new CylinderGeometry(Vec3f.axisX(), Vec3f.axisZ(), radius, length, capped, radialSegments, 1);
+  }
+
+  public static CylinderGeometry aroundX(float innerRadius, float outerRadius, float length, int radialSegments, int lengthSegments) {
+    return new CylinderGeometry(Vec3f.axisZ(), Vec3f.axisX(), innerRadius, outerRadius, length, radialSegments, lengthSegments);
+  }
+  
+  public static CylinderGeometry aroundX(float innerRadius, float outerRadius, float length, int radialSegments) {
+    return new CylinderGeometry(Vec3f.axisZ(), Vec3f.axisX(), innerRadius, outerRadius, length, radialSegments, 1);
+  }
+  
+  public static CylinderGeometry aroundY(float innerRadius, float outerRadius, float length, int radialSegments, int lengthSegments) {
+    return new CylinderGeometry(Vec3f.axisX(), Vec3f.axisY(), innerRadius, outerRadius, length, radialSegments, lengthSegments);
+  }
+  
+  public static CylinderGeometry aroundY(float innerRadius, float outerRadius, float length, int radialSegments) {
+    return new CylinderGeometry(Vec3f.axisX(), Vec3f.axisY(), innerRadius, outerRadius, length, radialSegments, 1);
+  }
+  
+  public static CylinderGeometry aroundZ(float innerRadius, float outerRadius, float length, int radialSegments, int lengthSegments) {
+    return new CylinderGeometry(Vec3f.axisX(), Vec3f.axisZ(), innerRadius, outerRadius, length, radialSegments, lengthSegments);
+  }
+  
+  public static CylinderGeometry aroundZ(float innerRadius, float outerRadius, float length, int radialSegments) {
+    return new CylinderGeometry(Vec3f.axisX(), Vec3f.axisZ(), innerRadius, outerRadius, length, radialSegments, 1);
   }
 }
