@@ -4,6 +4,9 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import jgl.core.Viewport;
+import jgl.scene.cameras.Camera;
+
 /**
  * Transformation matrix functions.
  * 
@@ -193,5 +196,23 @@ public final class Transform {
         0, 0, 1 });
     Mat4f m2 = translation(-eyeX, -eyeY, -eyeZ);
     return m1.times(m2);
+  }
+
+  /**
+   * Transforms a point from world coordinates to window coordinates. The window coordinate z value
+   * is the depth in 3D from -1 to +1.
+   */
+  public static Vec3f worldToWindow(Viewport viewport, Mat4f projection, Mat4f view, Vec3f p) {
+    Vec4f pClip = projection.times(view.times(new Vec4f(p.x, p.y, p.z, 1)));
+    return viewport.transform(pClip.divide(pClip.w), -1, 1);
+  }
+  
+  /**
+   * Transforms a point from world coordinates to window coordinates. The window coordinate z value
+   * is the depth in 3D from -1 to +1.
+   */
+  public static Vec3f worldToWindow(Viewport viewport, Camera camera, Vec3f p) {
+    Vec4f pClip = camera.getProjection().times(camera.getView().times(new Vec4f(p.x, p.y, p.z, 1)));
+    return viewport.transform(pClip.divide(pClip.w), -1, 1);
   }
 }
