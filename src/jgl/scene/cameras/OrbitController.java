@@ -62,7 +62,7 @@ public class OrbitController implements KeyListener, MouseWheelListener {
   public OrbitController() {
     setUpY(true);
   }
-
+  
   /** If false, Z is up; if true, Y is up. */
   public void setUpY(boolean yUp) {
     up = (yUp ? Vec3f.axisY() : Vec3f.axisZ());
@@ -80,6 +80,16 @@ public class OrbitController implements KeyListener, MouseWheelListener {
 
   public void setRadius(float radius) {
     this.radius.value = radius;
+  }
+  
+  public void setAzimuth(float azimuth) {
+    this.azimuth.value = azimuth;
+    updateView();
+  }
+  
+  public void setAltitude(float altitude) {
+    this.altitude.value = altitude;
+    updateView();
   }
 
   public void update() {
