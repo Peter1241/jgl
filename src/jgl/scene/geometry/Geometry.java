@@ -138,11 +138,8 @@ public abstract class Geometry {
   }
   
   public Vec3f getVertex(int i) {
-    float[] xyz = new float[3];
-    vertices.position(i * 3);
-    vertices.get(xyz, i * 3, 3);
-    vertices.rewind();
-    return new Vec3f(xyz);
+    int j = i * 3;
+    return new Vec3f(vertices.get(j), vertices.get(j + 1), vertices.get(j + 2));
   }
 
   /**

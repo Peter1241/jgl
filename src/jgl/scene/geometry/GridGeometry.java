@@ -4,6 +4,7 @@
  *******************************************************************************/
 package jgl.scene.geometry;
 
+import jgl.math.vector.ReadableVec3f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -21,7 +22,7 @@ public class GridGeometry extends Geometry {
    * @param segments - number of segments in the grid.
    * @param segmentSize - size of each segment.
    */
-  public GridGeometry(Vec3f x, Vec3f y, int segments, float segmentSize) {
+  public GridGeometry(ReadableVec3f x, ReadableVec3f y, int segments, float segmentSize) {
 
     float size = segmentSize * segments;
     init((segments + 1) * 4, 0, Geometry.PrimitiveType.LINES);
