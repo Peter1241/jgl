@@ -49,12 +49,26 @@ public class Vec4f implements ConstVec4f {
   }
 
   /**
+   * Creates a vector using the values (v.x, v.y, z, w).
+   */
+  public Vec4f(ConstVec2f v, float z, float w) {
+    this(v.x(), v.y(), z, w);
+  }
+  
+  /**
+   * Creates a vector using the values (v.x, v.y, v.z, w).
+   */
+  public Vec4f(ConstVec3f v, float w) {
+    this(v.x(), v.y(), v.z(), w);
+  }
+  
+  /**
    * Creates a vector using the values (v.x, v.y, v.z, v.w).
    */
   public Vec4f(ConstVec4f v) {
     this(v.x(), v.y(), v.z(), v.w());
   }
-
+  
   /**
    * Creates a vector using the values (a[0], a[1], a[2], a[3]).
    */

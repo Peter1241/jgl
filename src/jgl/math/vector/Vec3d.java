@@ -43,6 +43,13 @@ public class Vec3d implements ConstVec3d {
   public Vec3d(double s) {
     this(s, s, s);
   }
+  
+  /**
+   * Creates a vector using the values (v.x, v.y, z).
+   */
+  public Vec3d(ConstVec2d v, double z) {
+    this(v.x(), v.y(), z);
+  }
 
   /**
    * Creates a vector using the values (v.x, v.y, v.z).
@@ -54,10 +61,10 @@ public class Vec3d implements ConstVec3d {
   /**
    * Creates a vector using the values (v.x, v.y, v.z).
    */
-  public Vec3d(ConstVec4f v) {
+  public Vec3d(ConstVec4d v) {
     this(v.x(), v.y(), v.z());
   }
-
+  
   /**
    * Creates a vector using the values (a[0], a[1], a[2]).
    */

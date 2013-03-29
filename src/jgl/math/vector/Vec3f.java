@@ -45,6 +45,13 @@ public class Vec3f implements ConstVec3f {
   }
 
   /**
+   * Creates a vector using the values (v.x, v.y, z).
+   */
+  public Vec3f(ConstVec2f v, float z) {
+    this(v.x(), v.y(), z);
+  }
+  
+  /**
    * Creates a vector using the values (v.x, v.y, v.z).
    */
   public Vec3f(ConstVec3f v) {
@@ -57,7 +64,7 @@ public class Vec3f implements ConstVec3f {
   public Vec3f(ConstVec4f v) {
     this(v.x(), v.y(), v.z());
   }
-
+  
   /**
    * Creates a vector using the values (a[0], a[1], a[2]).
    */

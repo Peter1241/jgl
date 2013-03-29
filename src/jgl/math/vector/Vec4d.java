@@ -47,6 +47,20 @@ public class Vec4d implements ConstVec4d {
   public Vec4d(double s) {
     this(s, s, s, s);
   }
+  
+  /**
+   * Creates a vector using the values (v.x, v.y, z, w).
+   */
+  public Vec4d(ConstVec2d v, double z, double w) {
+    this(v.x(), v.y(), z, w);
+  }
+  
+  /**
+   * Creates a vector using the values (v.x, v.y, v.z, w).
+   */
+  public Vec4d(ConstVec3d v, double w) {
+    this(v.x(), v.y(), v.z(), w);
+  }
 
   /**
    * Creates a vector using the values (v.x, v.y, v.z, v.w).
@@ -54,7 +68,7 @@ public class Vec4d implements ConstVec4d {
   public Vec4d(ConstVec4d v) {
     this(v.x(), v.y(), v.z(), v.w());
   }
-
+  
   /**
    * Creates a vector using the values (a[0], a[1], a[2], a[3]).
    */

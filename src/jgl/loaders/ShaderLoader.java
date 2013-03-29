@@ -60,4 +60,11 @@ public class ShaderLoader {
       return null;
     }
   }
+  
+  /**
+   * Loads a shader using an absolute resource path.
+   */
+  public static Shader load(GL2GL3 gl, String resource, Type type) {
+    return load(gl, Shader.class.getResourceAsStream(resource), type);
+  }
 }
