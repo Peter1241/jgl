@@ -280,7 +280,7 @@ public class Vec3f implements ConstVec3f {
 
   @Override
   public float dot(ConstVec3f v) {
-    return x * x + y * y + z * z;
+    return x * v.x() + y * v.y() + z * v.z();
   }
 
   @Override

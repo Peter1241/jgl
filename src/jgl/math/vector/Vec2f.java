@@ -311,7 +311,7 @@ public class Vec2f implements ConstVec2f {
 
   @Override
   public float dot(ConstVec2f v) {
-    return x * x + y * y;
+    return x * v.x() + y * v.y();
   }
 
   @Override

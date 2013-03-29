@@ -315,7 +315,7 @@ public class Vec2d implements ConstVec2d {
 
   @Override
   public double dot(ConstVec2d v) {
-    return x * x + y * y;
+    return x * v.x() + y * v.y();
   }
 
   @Override

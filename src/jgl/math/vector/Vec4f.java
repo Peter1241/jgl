@@ -283,7 +283,7 @@ public class Vec4f implements ConstVec4f {
 
   @Override
   public float dot(ConstVec4f v) {
-    return x * x + y * y + z * z + w * w;
+    return x * v.x() + y * v.y() + z * v.z() + w * v.w();
   }
 
   @Override

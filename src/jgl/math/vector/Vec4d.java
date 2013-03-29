@@ -283,7 +283,7 @@ public class Vec4d implements ConstVec4d {
 
   @Override
   public double dot(ConstVec4d v) {
-    return x * x + y * y + z * z + w * w;
+    return x * v.x() + y * v.y() + z * v.z() + w * v.w();
   }
 
   @Override

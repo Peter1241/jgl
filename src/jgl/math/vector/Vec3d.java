@@ -280,7 +280,7 @@ public class Vec3d implements ConstVec3d {
 
   @Override
   public double dot(ConstVec3d v) {
-    return x * x + y * y + z * z;
+    return x * v.x() + y * v.y() + z * v.z();
   }
 
   @Override
