@@ -54,7 +54,7 @@ public final class Transform {
   /**
    * A rotation matrix around the x-axis
    */
-  public Mat4f rotationX(double radians) {
+  public static Mat4f rotationX(double radians) {
     float c = (float) Math.cos(radians);
     float s = (float) Math.sin(radians);
     return new Mat4f(new float[] { 1, 0, 0, 0, 0, c, s, 0, 0, -s, c, 0, 0, 0, 0, 1 });
