@@ -307,7 +307,7 @@ public class Vec3f implements ConstVec3f {
   }
 
   @Override
-  public float[] array() {
+  public float[] toArray() {
     return new float[] { x, y, z };
   }
 

@@ -121,7 +121,7 @@ public interface ConstVec4f extends Swizzle4<Vec2f, Vec3f, Vec4f> {
   /**
    *  A copy of the vector as an array.
    */
-  float[] array();
+  float[] toArray();
   
   /**
    *  A copy of the vector that is mutable.

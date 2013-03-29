@@ -83,10 +83,10 @@ public class ObjModel {
       }
       
       for (Vertex v : face.vertices) {
-        vertexData.put(v.position().array());
-        vertexData.put(v.normal().array());
+        vertexData.put(v.position().toArray());
+        vertexData.put(v.normal().toArray());
         if (format == ModelFormat.PNT) {
-          vertexData.put(v.texCoord().array());
+          vertexData.put(v.texCoord().toArray());
         }
         verticesAdded++;
       }

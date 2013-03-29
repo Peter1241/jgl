@@ -167,12 +167,17 @@ public interface ConstVec2d extends Swizzle2<Vec2d> {
   /**
    *  A copy of the vector as an array.
    */
-  double[] array();
+  double[] toArray();
   
   /**
    *  A copy of the vector that is mutable.
    */
   Vec2d copy();
+  
+  /**
+   * A copy of the vector with its components casted to floats.
+   */
+  Vec2f toFloat();
   
   /**
    * Adds this vector's components to the end of a buffer.

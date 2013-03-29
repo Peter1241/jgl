@@ -166,7 +166,7 @@ public interface ConstVec2f extends Swizzle2<Vec2f> {
   /**
    *  A copy of the vector as an array.
    */
-  float[] array();
+  float[] toArray();
 
   /**
    *  A copy of the vector that is mutable.

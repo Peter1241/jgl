@@ -392,7 +392,7 @@ public class Vec2f implements ConstVec2f {
   }
 
   @Override
-  public float[] array() {
+  public float[] toArray() {
     return new float[] { x, y };
   }
 

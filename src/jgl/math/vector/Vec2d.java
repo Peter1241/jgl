@@ -396,13 +396,18 @@ public class Vec2d implements ConstVec2d {
   }
 
   @Override
-  public double[] array() {
+  public double[] toArray() {
     return new double[] { x, y };
   }
 
   @Override
   public Vec2d copy() {
     return new Vec2d(x, y);
+  }
+  
+  @Override
+  public Vec2f toFloat() {
+    return new Vec2f((float)x, (float)y);
   }
   
   @Override

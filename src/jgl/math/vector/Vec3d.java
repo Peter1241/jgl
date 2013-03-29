@@ -307,13 +307,18 @@ public class Vec3d implements ConstVec3d {
   }
 
   @Override
-  public double[] array() {
+  public double[] toArray() {
     return new double[] { x, y, z };
   }
 
   @Override
   public Vec3d copy() {
     return new Vec3d(x, y, z);
+  }
+  
+  @Override
+  public Vec3f toFloat() {
+    return new Vec3f((float)x, (float)y, (float)z);
   }
   
   @Override

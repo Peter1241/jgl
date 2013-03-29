@@ -127,12 +127,17 @@ public interface ConstVec3d extends Swizzle3<Vec2d, Vec3d> {
   /**
    *  A copy of the vector as an array.
    */
-  double[] array();
+  double[] toArray();
   
   /**
    *  A copy of the vector that is mutable.
    */
   Vec3d copy();
+  
+  /**
+   * A copy of the vector with its components casted to floats.
+   */
+  Vec3f toFloat();
   
   /**
    * Adds this vector's components to the end of a buffer.

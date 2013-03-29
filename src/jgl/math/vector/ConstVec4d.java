@@ -121,12 +121,17 @@ public interface ConstVec4d extends Swizzle4<Vec2d, Vec3d, Vec4d> {
   /**
    *  A copy of the vector as an array.
    */
-  double[] array();
+  double[] toArray();
   
   /**
    *  A copy of the vector that is mutable.
    */
   Vec4d copy();
+  
+  /**
+   * A copy of the vector with its components casted to floats.
+   */
+  Vec4f toFloat();
   
   /**
    * Adds this vector's components to the end of a buffer.

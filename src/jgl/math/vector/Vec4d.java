@@ -293,13 +293,18 @@ public class Vec4d implements ConstVec4d {
   }
 
   @Override
-  public double[] array() {
+  public double[] toArray() {
     return new double[] { x, y, z, w };
   }
 
   @Override
   public Vec4d copy() {
     return new Vec4d(x, y, z, w);
+  }
+  
+  @Override
+  public Vec4f toFloat() {
+    return new Vec4f((float)x, (float)y, (float)z, (float)w);
   }
   
   @Override

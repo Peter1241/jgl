@@ -293,7 +293,7 @@ public class Vec4f implements ConstVec4f {
   }
 
   @Override
-  public float[] array() {
+  public float[] toArray() {
     return new float[] { x, y, z, w };
   }
 
