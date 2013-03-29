@@ -4,178 +4,177 @@
  *******************************************************************************/
 package jgl.math.vector;
 
-import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 
 /**
- * Immutable interface for a Vec2d.
+ * Immutable interface for a Vec2f.
  * 
  * @author justin
  */
-public interface ReadableVec2d extends Swizzle2<Vec2d> {
-  
+public interface ConstVec2f extends Swizzle2<Vec2f> {
+
   /**
    *  The first component.
    */
-  double x();
+  float x();
 
   /**
    *  The second component.
    */
-  double y();
-  
+  float y();
+
   /**
    *  Component-wise addition. Creates a new vector.
    */
-  Vec2d plus(ReadableVec2d v);
-  
+  Vec2f plus(ConstVec2f v);
+
   /**
    *  Component-wise addition. Creates a new vector.
    */
-  Vec2d plus(double x, double y);
-  
+  Vec2f plus(float x, float y);
+
   /**
    *  Adds scalar to each component. Creates a new vector.
    */
-  Vec2d plus(double s);
+  Vec2f plus(float s);
 
   /**
    *  Component-wise subtraction. Creates a new vector.
    */
-  Vec2d minus(ReadableVec2d v);
-  
+  Vec2f minus(ConstVec2f v);
+
   /**
    *  Component-wise subtraction. Creates a new vector.
    */
-  Vec2d minus(double x, double y);
-  
+  Vec2f minus(float x, float y);
+
   /**
    *  Subtracts scalar from each component. Creates a new vector.
    */
-  Vec2d minus(double s);
+  Vec2f minus(float s);
 
   /**
    *  Component-wise multiplication. Creates a new vector.
    */
-  Vec2d times(ReadableVec2d v);
-  
+  Vec2f times(ConstVec2f v);
+
   /**
    *  Component-wise multiplication. Creates a new vector.
    */
-  Vec2d times(double x, double y);
-  
+  Vec2f times(float x, float y);
+
   /**
    *  Multiplies scalar with each component. Creates a new vector.
    */
-  Vec2d times(double s);
+  Vec2f times(float s);
 
   /**
    *  Component-wise division. Creates a new vector.
    */
-  Vec2d over(ReadableVec2d v);
+  Vec2f over(ConstVec2f v);
 
   /**
    *  Component-wise division. Creates a new vector.
    */
-  Vec2d over(double x, double y);
-  
+  Vec2f over(float x, float y);
+
   /**
    *  Divides each component by scalar. Creates a new vector.
    */
-  Vec2d over(double s);
-  
+  Vec2f over(float s);
+
   /**
    *  Dot product: sum of squared components.
    */
-  double dot(ReadableVec2d v);
-  
+  float dot(ConstVec2f v);
+
   /**
    *  The 2D cross product: (this) x (v).
    */
-  double cross(ReadableVec2d v);
-  
+  float cross(ConstVec2f v);
+
   /**
    *  This vector rotated 90 degrees counter-clockwise. Creates a new vector.
    */
-  Vec2d rotatedDegrees90();
-  
+  Vec2f rotatedDegrees90();
+
   /**
    *  This vector rotated 180 degrees counter-clockwise. Creates a new vector.
    */
-  Vec2d rotatedDegrees180();
+  Vec2f rotatedDegrees180();
 
   /**
    *  This vector rotated 270 degrees counter-clockwise. Creates a new vector.
    */
-  Vec2d rotatedDegrees270();
-  
+  Vec2f rotatedDegrees270();
+
   /**
    *  This vector rotated by degrees counter-clockwise. Creates a new vector.
    */
-  Vec2d rotatedDegrees(double degrees);
-  
+  Vec2f rotatedDegrees(double degrees);
+
   /**
    *  This vector rotated by radians counter-clockwise. Creates a new vector.
    */
-  Vec2d rotatedRadians(double radians);
-  
+  Vec2f rotatedRadians(double radians);
+
   /**
-   *  This vector reflected across a surface with normal n. Creates a
-   * new vector.
+   *  This vector reflected across a surface with normal n. Creates a new vector.
    */
-  Vec2d reflected(ReadableVec2d n);
-  
+  Vec2f reflected(ConstVec2f n);
+
   /**
    *  This vector with length 1. Creates a new vector.
    */
-  Vec2d normalized();
-  
+  Vec2f normalized();
+
   /**
    *  This vector with its components negated. Creates a new vector.
    */
-  Vec2d negated();
+  Vec2f negated();
 
   /**
    *  The angle of the vector (around Z axis) in [-pi, pi].
    */
-  double anglePi();
-  
+  float anglePi();
+
   /**
    *  The angle of the vector (around Z axis) in [0, 2pi].
    */
-  double angle2Pi();
-  
+  float angle2Pi();
+
   /**
    *  The angle of the vector (around Z axis) in [-180, 180].
    */
-  double angle180();
+  float angle180();
 
   /**
    *  The angle of the vector (around Z axis) in [0, 360].
    */
-  double angle360();
-  
+  float angle360();
+
   /**
    *  The length/magnitude of this vector.
    */
-  double length();
+  float length();
 
   /**
    *  The squared length/magnitude of this vector.
    */
-  double lengthSquared();
+  float lengthSquared();
 
   /**
    *  A copy of the vector as an array.
    */
-  double[] array();
-  
+  float[] array();
+
   /**
    *  A copy of the vector that is mutable.
    */
-  Vec2d copy();
+  Vec2f copy();
   
   /**
    * Adds this vector's components to the end of a buffer.
    */
-  void putInto(DoubleBuffer buf);
+  void putInto(FloatBuffer buf);
 }

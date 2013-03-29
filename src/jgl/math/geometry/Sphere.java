@@ -4,7 +4,7 @@
  *******************************************************************************/
 package jgl.math.geometry;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 
 
 /**
@@ -15,12 +15,12 @@ import jgl.math.vector.ReadableVec3f;
 public class Sphere {
   
   /** The center point. */
-  public final ReadableVec3f c;
+  public final ConstVec3f c;
 
   /** The radius. */
   public final float  r;
 
-  public Sphere(ReadableVec3f c, float r) {
+  public Sphere(ConstVec3f c, float r) {
     this.c = c;
     this.r = r;
   }

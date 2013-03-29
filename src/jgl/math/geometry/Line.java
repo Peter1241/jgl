@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -19,15 +19,15 @@ import jgl.math.vector.Vec3f;
 public class Line {
 
   /** First point on the line. */
-  public final ReadableVec3f a;
+  public final ConstVec3f a;
 
   /** Second point on the line. */
-  public final ReadableVec3f b;
+  public final ConstVec3f b;
 
   /** Vector from a to b (not normalized) */
-  public final ReadableVec3f ab;
+  public final ConstVec3f ab;
 
-  public Line(ReadableVec3f a, ReadableVec3f b) {
+  public Line(ConstVec3f a, ConstVec3f b) {
     this.a = a;
     this.b = b;
     this.ab = b.minus(a);
@@ -92,7 +92,7 @@ public class Line {
   /**
    * Calculates t such that a + ab * t is on the plane.
    */
-  static float intersectLength(ReadableVec3f a, ReadableVec3f ab, Plane plane) {
+  static float intersectLength(ConstVec3f a, ConstVec3f ab, Plane plane) {
     float nDotAB = plane.n.dot(ab);
     return nDotAB == 0 ? Float.NEGATIVE_INFINITY : (plane.n.dot(plane.p.minus(a))) / nDotAB;
   }
@@ -100,7 +100,7 @@ public class Line {
   /**
    * Calculates all t such that a + ab * t is on the sphere.
    */
-  static float[] intersectLengths(ReadableVec3f a, ReadableVec3f ab, Sphere sphere) {
+  static float[] intersectLengths(ConstVec3f a, ConstVec3f ab, Sphere sphere) {
     Vec3f cp = a.minus(sphere.c);
     float A = ab.dot(ab);
     float B = 2 * ab.dot(cp);

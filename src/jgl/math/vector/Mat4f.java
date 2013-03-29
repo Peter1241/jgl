@@ -56,7 +56,7 @@ public class Mat4f {
   /**
    * Creates a new 4x4 matrix using column vectors x, y, z, and w.
    */
-  public Mat4f(ReadableVec4f x, ReadableVec4f y, ReadableVec4f z, ReadableVec4f w) {
+  public Mat4f(ConstVec4f x, ConstVec4f y, ConstVec4f z, ConstVec4f w) {
     this.a = new float[16];
 
     this.a[0] = x.x();
@@ -105,14 +105,14 @@ public class Mat4f {
   /**
    * Multiplication with (v.x, v.y, v.z, v.w). Returns a new vector.
    */
-  public Vec4f times(ReadableVec4f v) {
+  public Vec4f times(ConstVec4f v) {
     return times(v.x(), v.y(), v.z(), v.w());
   }
   
   /**
    * Multiplication with (v.x, v.y, v.z, 0). Returns a new vector.
    */
-  public Vec3f times(ReadableVec3f v) {
+  public Vec3f times(ConstVec3f v) {
     float vx = v.x() * a[0] + v.y() * a[4] + v.z() * a[8];
     float vy = v.x() * a[1] + v.y() * a[5] + v.z() * a[9];
     float vz = v.x() * a[2] + v.y() * a[6] + v.z() * a[10];

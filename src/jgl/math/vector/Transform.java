@@ -33,7 +33,7 @@ public final class Transform {
   /**
    * A translation matrix
    */
-  public static Mat4f translation(ReadableVec3f v) {
+  public static Mat4f translation(ConstVec3f v) {
     return translation(v.x(), v.y(), v.z());
   }
 
@@ -47,7 +47,7 @@ public final class Transform {
   /**
    * A scale matrix
    */
-  public static Mat4f scale(ReadableVec3f v) {
+  public static Mat4f scale(ConstVec3f v) {
     return scale(v.x(), v.y(), v.z());
   }
 
@@ -116,7 +116,7 @@ public final class Transform {
   /**
    * A rotation matrix around the u-axis with length 1.
    */
-  public static Mat4f rotation(ReadableVec3f u, double radians) {
+  public static Mat4f rotation(ConstVec3f u, double radians) {
     return rotation(u.x(), u.y(), u.z(), radians);
   }
 

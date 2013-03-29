@@ -5,7 +5,7 @@
 package jgl.scene.geometry;
 
 import jgl.math.vector.Mat4f;
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Transform;
 import jgl.math.vector.Vec3f;
 
@@ -24,7 +24,7 @@ public class CircleGeometry extends Geometry {
    * @param radius - radius of the circle.
    * @param segments - number of segments in the circle.
    */
-  public CircleGeometry(ReadableVec3f start, ReadableVec3f normal, float radius,  int segments) {
+  public CircleGeometry(ConstVec3f start, ConstVec3f normal, float radius,  int segments) {
 
     init(segments + 2, 0, Geometry.PrimitiveType.TRIANGLE_FAN);
 
@@ -59,7 +59,7 @@ public class CircleGeometry extends Geometry {
    * @param outerRadius
    * @param segments
    */
-  public CircleGeometry(ReadableVec3f start, ReadableVec3f normal, float innerRadius, float outerRadius, int segments) {
+  public CircleGeometry(ConstVec3f start, ConstVec3f normal, float innerRadius, float outerRadius, int segments) {
 
     init((segments+1) * 2, 0, Geometry.PrimitiveType.TRIANGLE_STRIP);
     

@@ -5,7 +5,7 @@
 package jgl.scene.geometry;
 
 import jgl.math.vector.Mat4f;
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Transform;
 import jgl.math.vector.Vec3f;
 
@@ -19,7 +19,7 @@ public class CylinderGeometry extends Geometry {
   /**
    * Creates a hollow cylinder (tube).
    */
-  public CylinderGeometry(ReadableVec3f start, ReadableVec3f direction, float innerRadius,
+  public CylinderGeometry(ConstVec3f start, ConstVec3f direction, float innerRadius,
       float outerRadius, float length, int radialSegments, int lengthSegments) {
 
     Vec3f p = start.copy();
@@ -109,7 +109,7 @@ public class CylinderGeometry extends Geometry {
   /**
    * Creates a cylinder.
    */
-  public CylinderGeometry(ReadableVec3f start, ReadableVec3f direction, float radius, float length,
+  public CylinderGeometry(ConstVec3f start, ConstVec3f direction, float radius, float length,
       boolean capped, int radialSegments, int lengthSegments) {
 
     int numVerts = radialSegments * (lengthSegments + 1);

@@ -5,7 +5,7 @@
 package jgl.scene.geometry;
 
 import jgl.math.vector.Mat4f;
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Transform;
 import jgl.math.vector.Vec3f;
 
@@ -26,7 +26,7 @@ public class ArcGeometry extends Geometry {
    * @param outerRadius - radius of the outerside of the arc.
    * @param segments - number of segments in the arc.
    */
-  public ArcGeometry(ReadableVec3f start, ReadableVec3f normal, double radians, float innerRadius,
+  public ArcGeometry(ConstVec3f start, ConstVec3f normal, double radians, float innerRadius,
       float outerRadius, int segments) {
     init((segments + 1) * 2, 0, Geometry.PrimitiveType.TRIANGLE_STRIP);
 

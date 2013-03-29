@@ -8,7 +8,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.fixedfunc.GLMatrixFunc;
 
 import jgl.math.vector.Mat4f;
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -25,31 +25,31 @@ public class Camera {
   protected Mat4f view;
   protected Mat4f projection;
 
-  public ReadableVec3f getEye() {
+  public ConstVec3f getEye() {
     return eye;
   }
 
-  public ReadableVec3f getForward() {
+  public ConstVec3f getForward() {
     return forward;
   }
 
-  public ReadableVec3f getBackward() {
+  public ConstVec3f getBackward() {
     return forward.times(-1);
   }
 
-  public ReadableVec3f getRight() {
+  public ConstVec3f getRight() {
     return right;
   }
 
-  public ReadableVec3f getLeft() {
+  public ConstVec3f getLeft() {
     return right.times(-1);
   }
 
-  public ReadableVec3f getUp() {
+  public ConstVec3f getUp() {
     return up;
   }
 
-  public ReadableVec3f getDown() {
+  public ConstVec3f getDown() {
     return up.times(-1);
   }
 

@@ -7,11 +7,11 @@ package jgl.math.vector;
 import java.nio.DoubleBuffer;
 
 /**
- * Immutable interface for a Vec3d.
+ * Immutable interface for a Vec2d.
  * 
  * @author justin
  */
-public interface ReadableVec3d extends Swizzle3<Vec2d, Vec3d> {
+public interface ConstVec2d extends Swizzle2<Vec2d> {
   
   /**
    *  The first component.
@@ -24,96 +24,136 @@ public interface ReadableVec3d extends Swizzle3<Vec2d, Vec3d> {
   double y();
   
   /**
-   *  The third component.
+   *  Component-wise addition. Creates a new vector.
    */
-  double z();
+  Vec2d plus(ConstVec2d v);
   
   /**
    *  Component-wise addition. Creates a new vector.
    */
-  Vec3d plus(ReadableVec3d v);
-  
-  /**
-   *  Component-wise addition. Creates a new vector.
-   */
-  Vec3d plus(double x, double y, double z);
+  Vec2d plus(double x, double y);
   
   /**
    *  Adds scalar to each component. Creates a new vector.
    */
-  Vec3d plus(double s);
+  Vec2d plus(double s);
 
   /**
    *  Component-wise subtraction. Creates a new vector.
    */
-  Vec3d minus(ReadableVec3d v);
+  Vec2d minus(ConstVec2d v);
   
   /**
    *  Component-wise subtraction. Creates a new vector.
    */
-  Vec3d minus(double x, double y, double z);
+  Vec2d minus(double x, double y);
   
   /**
    *  Subtracts scalar from each component. Creates a new vector.
    */
-  Vec3d minus(double s);
+  Vec2d minus(double s);
 
   /**
    *  Component-wise multiplication. Creates a new vector.
    */
-  Vec3d times(ReadableVec3d v);
+  Vec2d times(ConstVec2d v);
   
   /**
    *  Component-wise multiplication. Creates a new vector.
    */
-  Vec3d times(double x, double y, double z);
+  Vec2d times(double x, double y);
   
   /**
    *  Multiplies scalar with each component. Creates a new vector.
    */
-  Vec3d times(double s);
+  Vec2d times(double s);
 
   /**
    *  Component-wise division. Creates a new vector.
    */
-  Vec3d over(ReadableVec3d v);
+  Vec2d over(ConstVec2d v);
 
   /**
    *  Component-wise division. Creates a new vector.
    */
-  Vec3d over(double x, double y, double z);
+  Vec2d over(double x, double y);
   
   /**
    *  Divides each component by scalar. Creates a new vector.
    */
-  Vec3d over(double s);
+  Vec2d over(double s);
   
   /**
    *  Dot product: sum of squared components.
    */
-  double dot(ReadableVec3d v);
+  double dot(ConstVec2d v);
   
   /**
-   *  The 3D cross product: (this) x (v).
+   *  The 2D cross product: (this) x (v).
    */
-  Vec3d cross(ReadableVec3d v);
+  double cross(ConstVec2d v);
+  
+  /**
+   *  This vector rotated 90 degrees counter-clockwise. Creates a new vector.
+   */
+  Vec2d rotatedDegrees90();
+  
+  /**
+   *  This vector rotated 180 degrees counter-clockwise. Creates a new vector.
+   */
+  Vec2d rotatedDegrees180();
+
+  /**
+   *  This vector rotated 270 degrees counter-clockwise. Creates a new vector.
+   */
+  Vec2d rotatedDegrees270();
+  
+  /**
+   *  This vector rotated by degrees counter-clockwise. Creates a new vector.
+   */
+  Vec2d rotatedDegrees(double degrees);
+  
+  /**
+   *  This vector rotated by radians counter-clockwise. Creates a new vector.
+   */
+  Vec2d rotatedRadians(double radians);
   
   /**
    *  This vector reflected across a surface with normal n. Creates a
    * new vector.
    */
-  Vec3d reflected(ReadableVec3d n);
+  Vec2d reflected(ConstVec2d n);
   
   /**
    *  This vector with length 1. Creates a new vector.
    */
-  Vec3d normalized();
+  Vec2d normalized();
   
   /**
    *  This vector with its components negated. Creates a new vector.
    */
-  Vec3d negated();
+  Vec2d negated();
 
+  /**
+   *  The angle of the vector (around Z axis) in [-pi, pi].
+   */
+  double anglePi();
+  
+  /**
+   *  The angle of the vector (around Z axis) in [0, 2pi].
+   */
+  double angle2Pi();
+  
+  /**
+   *  The angle of the vector (around Z axis) in [-180, 180].
+   */
+  double angle180();
+
+  /**
+   *  The angle of the vector (around Z axis) in [0, 360].
+   */
+  double angle360();
+  
   /**
    *  The length/magnitude of this vector.
    */
@@ -132,7 +172,7 @@ public interface ReadableVec3d extends Swizzle3<Vec2d, Vec3d> {
   /**
    *  A copy of the vector that is mutable.
    */
-  Vec3d copy();
+  Vec2d copy();
   
   /**
    * Adds this vector's components to the end of a buffer.

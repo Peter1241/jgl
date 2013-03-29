@@ -5,7 +5,7 @@
 package jgl.math.geometry;
 
 import jgl.math.Maths;
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -15,15 +15,15 @@ import jgl.math.vector.Vec3f;
  */
 public class ConvexPolygon {
 
-  public final ReadableVec3f[] v;
-  public final ReadableVec3f   n;
+  public final ConstVec3f[] v;
+  public final ConstVec3f   n;
 
-  public ConvexPolygon(ReadableVec3f[] verts) {
+  public ConvexPolygon(ConstVec3f[] verts) {
     this.v = verts;
     this.n = calcNormal(verts);
   }
 
-  public ConvexPolygon(ReadableVec3f[] verts, ReadableVec3f normal) {
+  public ConvexPolygon(ConstVec3f[] verts, ConstVec3f normal) {
     this.v = verts;
     this.n = normal;
   }
@@ -32,7 +32,7 @@ public class ConvexPolygon {
    * @return True if the point x (or its projection onto this polygon's plane) is within the polygon
    *         edge.
    */
-  public boolean contains(ReadableVec3f x) {
+  public boolean contains(ConstVec3f x) {
     if (x == null)
       return false;
     for (int i = 0; i < v.length; i++)
@@ -41,11 +41,11 @@ public class ConvexPolygon {
     return true;
   }
 
-  public static Vec3f calcNormal(ReadableVec3f[] v) {
+  public static Vec3f calcNormal(ConstVec3f[] v) {
     Vec3f n = new Vec3f(0, 0, 0);
     for (int i = 0; i < v.length; i++) {
-      ReadableVec3f a = v[i];
-      ReadableVec3f b = v[(i + 1) % v.length];
+      ConstVec3f a = v[i];
+      ConstVec3f b = v[(i + 1) % v.length];
       n.x += (a.y() - b.y()) * (a.z() + b.z());
       n.y += (a.z() - b.z()) * (a.x() + b.x());
       n.z += (a.x() - b.x()) * (a.y() + b.y());

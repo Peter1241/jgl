@@ -4,7 +4,7 @@
  *******************************************************************************/
 package jgl.math.geometry;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 
 /**
  * A circle.
@@ -14,15 +14,15 @@ import jgl.math.vector.ReadableVec3f;
 public class Circle {
 
   /** Center */
-  public final ReadableVec3f center;
+  public final ConstVec3f center;
 
   /** Normal direction */
-  public final ReadableVec3f normal;
+  public final ConstVec3f normal;
 
   /** Radius */
   public final float         radius;
 
-  public Circle(ReadableVec3f c, ReadableVec3f n, float r) {
+  public Circle(ConstVec3f c, ConstVec3f n, float r) {
     this.center = c;
     this.normal = n;
     this.radius = r;

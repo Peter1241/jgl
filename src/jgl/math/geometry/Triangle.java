@@ -4,7 +4,7 @@
  *******************************************************************************/
 package jgl.math.geometry;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 
 /**
  * A triangle defined by its three vertices arranged in counter-clockwise order around its normal.
@@ -14,7 +14,7 @@ import jgl.math.vector.ReadableVec3f;
 public class Triangle extends ConvexPolygon {
 
   /** A triangle defined by three points arranged counter-clockwise for the front face. */
-  public Triangle(ReadableVec3f a, ReadableVec3f b, ReadableVec3f c) {
-    super(new ReadableVec3f[] { a, b, c }, c.minus(b).cross(a.minus(b)).normalize());
+  public Triangle(ConstVec3f a, ConstVec3f b, ConstVec3f c) {
+    super(new ConstVec3f[] { a, b, c }, c.minus(b).cross(a.minus(b)).normalize());
   }
 }

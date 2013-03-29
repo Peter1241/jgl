@@ -4,7 +4,7 @@
  *******************************************************************************/
 package jgl.math.geometry;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -20,11 +20,11 @@ public class Box {
   public static final int[][] EDGES = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 }, { 0, 4 }, { 1, 5 },
       { 2, 6 }, { 3, 7 }, { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 4 } };
 
-  public final ReadableVec3f         min;
-  public final ReadableVec3f         max;
-  public final ReadableVec3f[]       verts = new ReadableVec3f[8];
+  public final ConstVec3f         min;
+  public final ConstVec3f         max;
+  public final ConstVec3f[]       verts = new ConstVec3f[8];
 
-  public Box(ReadableVec3f min, ReadableVec3f max) {
+  public Box(ConstVec3f min, ConstVec3f max) {
     this.min = min;
     this.max = max;
 
@@ -62,7 +62,7 @@ public class Box {
 
   public ConvexPolygon getFace(int i) {
     int[] j = FACES[i];
-    return new ConvexPolygon(new ReadableVec3f[] { 
+    return new ConvexPolygon(new ConstVec3f[] { 
         verts[j[0]], verts[j[1]], verts[j[2]], verts[j[3]] });
   }
 }

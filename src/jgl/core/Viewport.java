@@ -8,7 +8,7 @@ import java.awt.Point;
 
 import javax.media.opengl.GL;
 
-import jgl.math.vector.ReadableVec4f;
+import jgl.math.vector.ConstVec4f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -92,7 +92,7 @@ public class Viewport {
   /**
    * Transforms normalized device coordinates to window coordinates
    */
-  public Vec3f transform(ReadableVec4f ndc, float near, float far) {
+  public Vec3f transform(ConstVec4f ndc, float near, float far) {
     float hW = width / 2;
     float hH = height / 2;
     float wx = hW * ndc.x() + (this.x + hW);

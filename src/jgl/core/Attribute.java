@@ -6,9 +6,9 @@ package jgl.core;
 
 import javax.media.opengl.GL2GL3;
 
-import jgl.math.vector.ReadableVec2f;
-import jgl.math.vector.ReadableVec3f;
-import jgl.math.vector.ReadableVec4f;
+import jgl.math.vector.ConstVec2f;
+import jgl.math.vector.ConstVec3f;
+import jgl.math.vector.ConstVec4f;
 
 /**
  * References a generic vertex attribute.
@@ -49,15 +49,15 @@ public class Attribute {
     gl.glVertexAttrib4f(index, x, y, z, w);
   }
 
-  public void set(GL2GL3 gl, ReadableVec2f v) {
+  public void set(GL2GL3 gl, ConstVec2f v) {
     set(gl, v.x(), v.y());
   }
 
-  public void set(GL2GL3 gl, ReadableVec3f v) {
+  public void set(GL2GL3 gl, ConstVec3f v) {
     set(gl, v.x(), v.y(), v.z());
   }
 
-  public void set(GL2GL3 gl, ReadableVec4f v) {
+  public void set(GL2GL3 gl, ConstVec4f v) {
     set(gl, v.x(), v.y(), v.z(), v.w());
   }
 }

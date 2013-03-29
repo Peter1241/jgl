@@ -15,7 +15,7 @@ class Swizzle {
  * 
  * @author justin
  */
-public class Vec2d implements ReadableVec2d {
+public class Vec2d implements ConstVec2d {
 
   /** The first component. */
   public double x;
@@ -47,21 +47,21 @@ public class Vec2d implements ReadableVec2d {
   /**
    * Creates a vector using the values (v.x, v.y).
    */
-  public Vec2d(ReadableVec2d v) {
+  public Vec2d(ConstVec2d v) {
     this(v.x(), v.y());
   }
 
   /**
    * Creates a vector using the values (v.x, v.y).
    */
-  public Vec2d(ReadableVec3f v) {
+  public Vec2d(ConstVec3f v) {
     this(v.x(), v.y());
   }
 
   /**
    * Creates a vector using the values (v.x, v.y).
    */
-  public Vec2d(ReadableVec4f v) {
+  public Vec2d(ConstVec4f v) {
     this(v.x(), v.y());
   }
 
@@ -82,7 +82,7 @@ public class Vec2d implements ReadableVec2d {
   /**
    *  Component-wise addition, in place. Returns this vector.
    */
-  public Vec2d add(ReadableVec2d v) {
+  public Vec2d add(ConstVec2d v) {
     return add(v.x(), v.y());
   }
 
@@ -105,7 +105,7 @@ public class Vec2d implements ReadableVec2d {
   /**
    *  Component-wise subtraction, in place. Returns this vector.
    */
-  public Vec2d subtract(ReadableVec2d v) {
+  public Vec2d subtract(ConstVec2d v) {
     return subtract(v.x(), v.y());
   }
 
@@ -128,7 +128,7 @@ public class Vec2d implements ReadableVec2d {
   /**
    *  Component-wise multiplication, in place. Returns this vector.
    */
-  public Vec2d multiply(ReadableVec2d v) {
+  public Vec2d multiply(ConstVec2d v) {
     return multiply(v.x(), v.y());
   }
 
@@ -151,7 +151,7 @@ public class Vec2d implements ReadableVec2d {
   /**
    *  Component-wise division, in place. Returns this vector.
    */
-  public Vec2d divide(ReadableVec2d v) {
+  public Vec2d divide(ConstVec2d v) {
     return divide(v.x(), v.y());
   }
 
@@ -236,7 +236,7 @@ public class Vec2d implements ReadableVec2d {
   /**
    * Reflects this vector across a surface normal, in place. Returns this vector.
    */
-  public Vec2d reflect(ReadableVec2d n) {
+  public Vec2d reflect(ConstVec2d n) {
     Vec2d v = reflected(n);
     x = v.x;
     y = v.y;
@@ -254,7 +254,7 @@ public class Vec2d implements ReadableVec2d {
   }
 
   @Override
-  public Vec2d plus(ReadableVec2d v) {
+  public Vec2d plus(ConstVec2d v) {
     return copy().add(v);
   }
 
@@ -269,7 +269,7 @@ public class Vec2d implements ReadableVec2d {
   }
 
   @Override
-  public Vec2d minus(ReadableVec2d v) {
+  public Vec2d minus(ConstVec2d v) {
     return copy().subtract(v);
   }
 
@@ -284,7 +284,7 @@ public class Vec2d implements ReadableVec2d {
   }
 
   @Override
-  public Vec2d times(ReadableVec2d v) {
+  public Vec2d times(ConstVec2d v) {
     return copy().multiply(v);
   }
 
@@ -299,7 +299,7 @@ public class Vec2d implements ReadableVec2d {
   }
 
   @Override
-  public Vec2d over(ReadableVec2d v) {
+  public Vec2d over(ConstVec2d v) {
     return copy().divide(v);
   }
 
@@ -314,12 +314,12 @@ public class Vec2d implements ReadableVec2d {
   }
 
   @Override
-  public double dot(ReadableVec2d v) {
+  public double dot(ConstVec2d v) {
     return x * x + y * y;
   }
 
   @Override
-  public double cross(ReadableVec2d v) {
+  public double cross(ConstVec2d v) {
     return x * v.y() - y * v.x();
   }
 
@@ -349,7 +349,7 @@ public class Vec2d implements ReadableVec2d {
   }
 
   @Override
-  public Vec2d reflected(ReadableVec2d n) {
+  public Vec2d reflected(ConstVec2d n) {
     return this.minus(n.times(2.0 * n.dot(this)));
   }
 

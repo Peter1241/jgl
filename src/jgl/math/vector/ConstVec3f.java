@@ -4,132 +4,138 @@
  *******************************************************************************/
 package jgl.math.vector;
 
-import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 
 /**
- * Immutable interface for a Vec4d.
+ * Immutable interface for a Vec3f.
  * 
  * @author justin
  */
-public interface ReadableVec4d extends Swizzle4<Vec2d, Vec3d, Vec4d> {
+public interface ConstVec3f extends Swizzle3<Vec2f, Vec3f> {
   
   /**
    *  The first component.
    */
-  double x();
+  float x();
 
   /**
    *  The second component.
    */
-  double y();
+  float y();
   
   /**
    *  The third component.
    */
-  double z();
-  
-  /**
-   *  The fourth component.
-   */
-  double w();
+  float z();
   
   /**
    *  Component-wise addition. Creates a new vector.
    */
-  Vec4d plus(ReadableVec4d v);
+  Vec3f plus(ConstVec3f v);
   
   /**
    *  Component-wise addition. Creates a new vector.
    */
-  Vec4d plus(double x, double y, double z, double w);
+  Vec3f plus(float x, float y, float z);
   
   /**
    *  Adds scalar to each component. Creates a new vector.
    */
-  Vec4d plus(double s);
+  Vec3f plus(float s);
 
   /**
    *  Component-wise subtraction. Creates a new vector.
    */
-  Vec4d minus(ReadableVec4d v);
+  Vec3f minus(ConstVec3f v);
   
   /**
    *  Component-wise subtraction. Creates a new vector.
    */
-  Vec4d minus(double x, double y, double z, double w);
+  Vec3f minus(float x, float y, float z);
   
   /**
    *  Subtracts scalar from each component. Creates a new vector.
    */
-  Vec4d minus(double s);
+  Vec3f minus(float s);
 
   /**
    *  Component-wise multiplication. Creates a new vector.
    */
-  Vec4d times(ReadableVec4d v);
+  Vec3f times(ConstVec3f v);
   
   /**
    *  Component-wise multiplication. Creates a new vector.
    */
-  Vec4d times(double x, double y, double z, double w);
+  Vec3f times(float x, float y, float z);
   
   /**
    *  Multiplies scalar with each component. Creates a new vector.
    */
-  Vec4d times(double s);
+  Vec3f times(float s);
 
   /**
    *  Component-wise division. Creates a new vector.
    */
-  Vec4d over(ReadableVec4d v);
+  Vec3f over(ConstVec3f v);
 
   /**
    *  Component-wise division. Creates a new vector.
    */
-  Vec4d over(double x, double y, double z, double w);
+  Vec3f over(float x, float y, float z);
   
   /**
    *  Divides each component by scalar. Creates a new vector.
    */
-  Vec4d over(double s);
+  Vec3f over(float s);
   
   /**
    *  Dot product: sum of squared components.
    */
-  double dot(ReadableVec4d v);
+  float dot(ConstVec3f v);
+  
+  /**
+   *  The 3D cross product: (this) x (v).
+   */
+  Vec3f cross(ConstVec3f v);
+  
+  /**
+   *  This vector reflected across a surface with normal n. Creates a
+   * new vector.
+   */
+  Vec3f reflected(ConstVec3f n);
   
   /**
    *  This vector with length 1. Creates a new vector.
    */
-  Vec4d normalized();
+  Vec3f normalized();
   
   /**
    *  This vector with its components negated. Creates a new vector.
    */
-  Vec4d negated();
+  Vec3f negated();
 
   /**
    *  The length/magnitude of this vector.
    */
-  double length();
+  float length();
 
   /**
    *  The squared length/magnitude of this vector.
    */
-  double lengthSquared();
+  float lengthSquared();
 
   /**
    *  A copy of the vector as an array.
    */
-  double[] array();
+  float[] array();
   
   /**
    *  A copy of the vector that is mutable.
    */
-  Vec4d copy();
+  Vec3f copy();
   
   /**
    * Adds this vector's components to the end of a buffer.
    */
-  void putInto(DoubleBuffer buf);
+  void putInto(FloatBuffer buf);
 }

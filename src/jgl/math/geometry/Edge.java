@@ -7,7 +7,7 @@ package jgl.math.geometry;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -17,11 +17,11 @@ import jgl.math.vector.Vec3f;
  */
 public class Edge {
   
-  public final ReadableVec3f a;
+  public final ConstVec3f a;
   
-  public final ReadableVec3f b;
+  public final ConstVec3f b;
   
-  public Edge(ReadableVec3f a, ReadableVec3f b) {
+  public Edge(ConstVec3f a, ConstVec3f b) {
     this.a = a;
     this.b = b;
   }

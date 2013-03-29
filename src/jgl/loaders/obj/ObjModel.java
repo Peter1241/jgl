@@ -19,7 +19,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 import jgl.math.geometry.Box;
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Vec2f;
 import jgl.math.vector.Vec3f;
 import jgl.scene.mesh.Model;
@@ -184,8 +184,8 @@ public class ObjModel {
       if (normal == null) {
         normal = new Vec3f(0);
         for (int i = 0; i < vertices.size(); i++) {
-          ReadableVec3f a = vertices.get(i).position();
-          ReadableVec3f b = vertices.get((i + 1) % vertices.size()).position();
+          ConstVec3f a = vertices.get(i).position();
+          ConstVec3f b = vertices.get((i + 1) % vertices.size()).position();
           normal.x += (a.y() - b.y()) * (a.z() + b.z());
           normal.y += (a.z() - b.z()) * (a.x() + b.x());
           normal.z += (a.x() - b.x()) * (a.y() + b.y());

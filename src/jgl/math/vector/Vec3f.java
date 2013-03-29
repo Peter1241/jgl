@@ -11,7 +11,7 @@ import java.nio.FloatBuffer;
  * 
  * @author justin
  */
-public class Vec3f implements ReadableVec3f {
+public class Vec3f implements ConstVec3f {
 
   /** The first component. */
   public float x;
@@ -47,14 +47,14 @@ public class Vec3f implements ReadableVec3f {
   /**
    * Creates a vector using the values (v.x, v.y, v.z).
    */
-  public Vec3f(ReadableVec3f v) {
+  public Vec3f(ConstVec3f v) {
     this(v.x(), v.y(), v.z());
   }
 
   /**
    * Creates a vector using the values (v.x, v.y, v.z).
    */
-  public Vec3f(ReadableVec4f v) {
+  public Vec3f(ConstVec4f v) {
     this(v.x(), v.y(), v.z());
   }
 
@@ -75,7 +75,7 @@ public class Vec3f implements ReadableVec3f {
   /**
    *  Component-wise addition, in place. Returns this vector.
    */
-  public Vec3f add(ReadableVec3f v) {
+  public Vec3f add(ConstVec3f v) {
     return add(v.x(), v.y(), v.z());
   }
 
@@ -99,7 +99,7 @@ public class Vec3f implements ReadableVec3f {
   /**
    *  Component-wise subtraction, in place. Returns this vector.
    */
-  public Vec3f subtract(ReadableVec3f v) {
+  public Vec3f subtract(ConstVec3f v) {
     return subtract(v.x(), v.y(), v.z());
   }
 
@@ -123,7 +123,7 @@ public class Vec3f implements ReadableVec3f {
   /**
    *  Component-wise multiplication, in place. Returns this vector.
    */
-  public Vec3f multiply(ReadableVec3f v) {
+  public Vec3f multiply(ConstVec3f v) {
     return multiply(v.x(), v.y(), v.z());
   }
 
@@ -147,7 +147,7 @@ public class Vec3f implements ReadableVec3f {
   /**
    *  Component-wise division, in place. Returns this vector.
    */
-  public Vec3f divide(ReadableVec3f v) {
+  public Vec3f divide(ConstVec3f v) {
     return divide(v.x(), v.y(), v.z());
   }
 
@@ -188,7 +188,7 @@ public class Vec3f implements ReadableVec3f {
   /**
    * Reflects this vector across a surface normal, in place. Returns this vector.
    */
-  public Vec3f reflect(ReadableVec3f n) {
+  public Vec3f reflect(ConstVec3f n) {
     Vec3f v = reflected(n);
     x = v.x;
     y = v.y;
@@ -212,7 +212,7 @@ public class Vec3f implements ReadableVec3f {
   }
 
   @Override
-  public Vec3f plus(ReadableVec3f v) {
+  public Vec3f plus(ConstVec3f v) {
     return copy().add(v);
   }
 
@@ -227,7 +227,7 @@ public class Vec3f implements ReadableVec3f {
   }
 
   @Override
-  public Vec3f minus(ReadableVec3f v) {
+  public Vec3f minus(ConstVec3f v) {
     return copy().subtract(v);
   }
 
@@ -242,7 +242,7 @@ public class Vec3f implements ReadableVec3f {
   }
 
   @Override
-  public Vec3f times(ReadableVec3f v) {
+  public Vec3f times(ConstVec3f v) {
     return copy().multiply(v);
   }
 
@@ -257,7 +257,7 @@ public class Vec3f implements ReadableVec3f {
   }
 
   @Override
-  public Vec3f over(ReadableVec3f v) {
+  public Vec3f over(ConstVec3f v) {
     return copy().divide(v);
   }
 
@@ -272,17 +272,17 @@ public class Vec3f implements ReadableVec3f {
   }
 
   @Override
-  public float dot(ReadableVec3f v) {
+  public float dot(ConstVec3f v) {
     return x * x + y * y + z * z;
   }
 
   @Override
-  public Vec3f cross(ReadableVec3f v) {
+  public Vec3f cross(ConstVec3f v) {
     return new Vec3f(y * v.z() - z * v.y(), z * v.x() - x * v.z(), x * v.y() - y * v.x());
   }
 
   @Override
-  public Vec3f reflected(ReadableVec3f n) {
+  public Vec3f reflected(ConstVec3f n) {
     return this.minus(n.times(2f * n.dot(this)));
   }
 

@@ -7,12 +7,12 @@ package jgl.math.vector;
 import java.nio.FloatBuffer;
 
 /**
- * Immutable interface for a Vec2f.
+ * Immutable interface for a Vec4f.
  * 
  * @author justin
  */
-public interface ReadableVec2f extends Swizzle2<Vec2f> {
-
+public interface ConstVec4f extends Swizzle4<Vec2f, Vec3f, Vec4f> {
+  
   /**
    *  The first component.
    */
@@ -22,136 +22,91 @@ public interface ReadableVec2f extends Swizzle2<Vec2f> {
    *  The second component.
    */
   float y();
-
+  
+  /**
+   *  The third component.
+   */
+  float z();
+  
+  /**
+   *  The fourth component.
+   */
+  float w();
+  
   /**
    *  Component-wise addition. Creates a new vector.
    */
-  Vec2f plus(ReadableVec2f v);
-
+  Vec4f plus(ConstVec4f v);
+  
   /**
    *  Component-wise addition. Creates a new vector.
    */
-  Vec2f plus(float x, float y);
-
+  Vec4f plus(float x, float y, float z, float w);
+  
   /**
    *  Adds scalar to each component. Creates a new vector.
    */
-  Vec2f plus(float s);
+  Vec4f plus(float s);
 
   /**
    *  Component-wise subtraction. Creates a new vector.
    */
-  Vec2f minus(ReadableVec2f v);
-
+  Vec4f minus(ConstVec4f v);
+  
   /**
    *  Component-wise subtraction. Creates a new vector.
    */
-  Vec2f minus(float x, float y);
-
+  Vec4f minus(float x, float y, float z, float w);
+  
   /**
    *  Subtracts scalar from each component. Creates a new vector.
    */
-  Vec2f minus(float s);
+  Vec4f minus(float s);
 
   /**
    *  Component-wise multiplication. Creates a new vector.
    */
-  Vec2f times(ReadableVec2f v);
-
+  Vec4f times(ConstVec4f v);
+  
   /**
    *  Component-wise multiplication. Creates a new vector.
    */
-  Vec2f times(float x, float y);
-
+  Vec4f times(float x, float y, float z, float w);
+  
   /**
    *  Multiplies scalar with each component. Creates a new vector.
    */
-  Vec2f times(float s);
+  Vec4f times(float s);
 
   /**
    *  Component-wise division. Creates a new vector.
    */
-  Vec2f over(ReadableVec2f v);
+  Vec4f over(ConstVec4f v);
 
   /**
    *  Component-wise division. Creates a new vector.
    */
-  Vec2f over(float x, float y);
-
+  Vec4f over(float x, float y, float z, float w);
+  
   /**
    *  Divides each component by scalar. Creates a new vector.
    */
-  Vec2f over(float s);
-
+  Vec4f over(float s);
+  
   /**
    *  Dot product: sum of squared components.
    */
-  float dot(ReadableVec2f v);
-
-  /**
-   *  The 2D cross product: (this) x (v).
-   */
-  float cross(ReadableVec2f v);
-
-  /**
-   *  This vector rotated 90 degrees counter-clockwise. Creates a new vector.
-   */
-  Vec2f rotatedDegrees90();
-
-  /**
-   *  This vector rotated 180 degrees counter-clockwise. Creates a new vector.
-   */
-  Vec2f rotatedDegrees180();
-
-  /**
-   *  This vector rotated 270 degrees counter-clockwise. Creates a new vector.
-   */
-  Vec2f rotatedDegrees270();
-
-  /**
-   *  This vector rotated by degrees counter-clockwise. Creates a new vector.
-   */
-  Vec2f rotatedDegrees(double degrees);
-
-  /**
-   *  This vector rotated by radians counter-clockwise. Creates a new vector.
-   */
-  Vec2f rotatedRadians(double radians);
-
-  /**
-   *  This vector reflected across a surface with normal n. Creates a new vector.
-   */
-  Vec2f reflected(ReadableVec2f n);
-
+  float dot(ConstVec4f v);
+  
   /**
    *  This vector with length 1. Creates a new vector.
    */
-  Vec2f normalized();
-
+  Vec4f normalized();
+  
   /**
    *  This vector with its components negated. Creates a new vector.
    */
-  Vec2f negated();
-
-  /**
-   *  The angle of the vector (around Z axis) in [-pi, pi].
-   */
-  float anglePi();
-
-  /**
-   *  The angle of the vector (around Z axis) in [0, 2pi].
-   */
-  float angle2Pi();
-
-  /**
-   *  The angle of the vector (around Z axis) in [-180, 180].
-   */
-  float angle180();
-
-  /**
-   *  The angle of the vector (around Z axis) in [0, 360].
-   */
-  float angle360();
+  Vec4f negated();
 
   /**
    *  The length/magnitude of this vector.
@@ -167,11 +122,11 @@ public interface ReadableVec2f extends Swizzle2<Vec2f> {
    *  A copy of the vector as an array.
    */
   float[] array();
-
+  
   /**
    *  A copy of the vector that is mutable.
    */
-  Vec2f copy();
+  Vec4f copy();
   
   /**
    * Adds this vector's components to the end of a buffer.

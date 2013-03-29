@@ -7,7 +7,7 @@ package jgl.math.geometry;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -18,12 +18,12 @@ import jgl.math.vector.Vec3f;
 public class Ray {
 
   /** Position of the start of the ray. */
-  public final ReadableVec3f p;
+  public final ConstVec3f p;
 
   /** Direction of the ray. */
-  public final ReadableVec3f d;
+  public final ConstVec3f d;
 
-  public Ray(ReadableVec3f position, ReadableVec3f direction) {
+  public Ray(ConstVec3f position, ConstVec3f direction) {
     this.p = position;
     this.d = direction.normalized();
   }

@@ -11,7 +11,7 @@ import java.nio.FloatBuffer;
  * 
  * @author justin
  */
-public class Vec4f implements ReadableVec4f {
+public class Vec4f implements ConstVec4f {
 
   /** The first component. */
   public float x;
@@ -51,7 +51,7 @@ public class Vec4f implements ReadableVec4f {
   /**
    * Creates a vector using the values (v.x, v.y, v.z, v.w).
    */
-  public Vec4f(ReadableVec4f v) {
+  public Vec4f(ConstVec4f v) {
     this(v.x(), v.y(), v.z(), v.w());
   }
 
@@ -72,7 +72,7 @@ public class Vec4f implements ReadableVec4f {
   /**
    *  Component-wise addition, in place. Returns this vector.
    */
-  public Vec4f add(ReadableVec4f v) {
+  public Vec4f add(ConstVec4f v) {
     return add(v.x(), v.y(), v.z(), v.w());
   }
 
@@ -97,7 +97,7 @@ public class Vec4f implements ReadableVec4f {
   /**
    *  Component-wise subtraction, in place. Returns this vector.
    */
-  public Vec4f subtract(ReadableVec4f v) {
+  public Vec4f subtract(ConstVec4f v) {
     return subtract(v.x(), v.y(), v.z(), v.w());
   }
 
@@ -122,7 +122,7 @@ public class Vec4f implements ReadableVec4f {
   /**
    *  Component-wise multiplication, in place. Returns this vector.
    */
-  public Vec4f multiply(ReadableVec4f v) {
+  public Vec4f multiply(ConstVec4f v) {
     return multiply(v.x(), v.y(), v.z(), v.w());
   }
 
@@ -147,7 +147,7 @@ public class Vec4f implements ReadableVec4f {
   /**
    *  Component-wise division, in place. Returns this vector.
    */
-  public Vec4f divide(ReadableVec4f v) {
+  public Vec4f divide(ConstVec4f v) {
     return divide(v.x(), v.y(), v.z(), v.w());
   }
 
@@ -208,7 +208,7 @@ public class Vec4f implements ReadableVec4f {
   }
 
   @Override
-  public Vec4f plus(ReadableVec4f v) {
+  public Vec4f plus(ConstVec4f v) {
     return copy().add(v);
   }
 
@@ -223,7 +223,7 @@ public class Vec4f implements ReadableVec4f {
   }
 
   @Override
-  public Vec4f minus(ReadableVec4f v) {
+  public Vec4f minus(ConstVec4f v) {
     return copy().subtract(v);
   }
 
@@ -238,7 +238,7 @@ public class Vec4f implements ReadableVec4f {
   }
 
   @Override
-  public Vec4f times(ReadableVec4f v) {
+  public Vec4f times(ConstVec4f v) {
     return copy().multiply(v);
   }
 
@@ -253,7 +253,7 @@ public class Vec4f implements ReadableVec4f {
   }
 
   @Override
-  public Vec4f over(ReadableVec4f v) {
+  public Vec4f over(ConstVec4f v) {
     return copy().divide(v);
   }
 
@@ -268,7 +268,7 @@ public class Vec4f implements ReadableVec4f {
   }
 
   @Override
-  public float dot(ReadableVec4f v) {
+  public float dot(ConstVec4f v) {
     return x * x + y * y + z * z + w * w;
   }
 

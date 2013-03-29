@@ -11,7 +11,7 @@ import java.nio.FloatBuffer;
  * 
  * @author justin
  */
-public class Vec2f implements ReadableVec2f {
+public class Vec2f implements ConstVec2f {
 
   /** The first component. */
   public float x;
@@ -43,21 +43,21 @@ public class Vec2f implements ReadableVec2f {
   /**
    * Creates a vector using the values (v.x, v.y).
    */
-  public Vec2f(ReadableVec2f v) {
+  public Vec2f(ConstVec2f v) {
     this(v.x(), v.y());
   }
 
   /**
    * Creates a vector using the values (v.x, v.y).
    */
-  public Vec2f(ReadableVec3f v) {
+  public Vec2f(ConstVec3f v) {
     this(v.x(), v.y());
   }
 
   /**
    * Creates a vector using the values (v.x, v.y).
    */
-  public Vec2f(ReadableVec4f v) {
+  public Vec2f(ConstVec4f v) {
     this(v.x(), v.y());
   }
 
@@ -78,7 +78,7 @@ public class Vec2f implements ReadableVec2f {
   /**
    *  Component-wise addition, in place. Returns this vector.
    */
-  public Vec2f add(ReadableVec2f v) {
+  public Vec2f add(ConstVec2f v) {
     return add(v.x(), v.y());
   }
 
@@ -101,7 +101,7 @@ public class Vec2f implements ReadableVec2f {
   /**
    *  Component-wise subtraction, in place. Returns this vector.
    */
-  public Vec2f subtract(ReadableVec2f v) {
+  public Vec2f subtract(ConstVec2f v) {
     return subtract(v.x(), v.y());
   }
 
@@ -124,7 +124,7 @@ public class Vec2f implements ReadableVec2f {
   /**
    *  Component-wise multiplication, in place. Returns this vector.
    */
-  public Vec2f multiply(ReadableVec2f v) {
+  public Vec2f multiply(ConstVec2f v) {
     return multiply(v.x(), v.y());
   }
 
@@ -147,7 +147,7 @@ public class Vec2f implements ReadableVec2f {
   /**
    *  Component-wise division, in place. Returns this vector.
    */
-  public Vec2f divide(ReadableVec2f v) {
+  public Vec2f divide(ConstVec2f v) {
     return divide(v.x(), v.y());
   }
 
@@ -232,7 +232,7 @@ public class Vec2f implements ReadableVec2f {
   /**
    * Reflects this vector across a surface normal, in place. Returns this vector.
    */
-  public Vec2f reflect(ReadableVec2f n) {
+  public Vec2f reflect(ConstVec2f n) {
     Vec2f v = reflected(n);
     x = v.x;
     y = v.y;
@@ -250,7 +250,7 @@ public class Vec2f implements ReadableVec2f {
   }
 
   @Override
-  public Vec2f plus(ReadableVec2f v) {
+  public Vec2f plus(ConstVec2f v) {
     return copy().add(v);
   }
 
@@ -265,7 +265,7 @@ public class Vec2f implements ReadableVec2f {
   }
 
   @Override
-  public Vec2f minus(ReadableVec2f v) {
+  public Vec2f minus(ConstVec2f v) {
     return copy().subtract(v);
   }
 
@@ -280,7 +280,7 @@ public class Vec2f implements ReadableVec2f {
   }
 
   @Override
-  public Vec2f times(ReadableVec2f v) {
+  public Vec2f times(ConstVec2f v) {
     return copy().multiply(v);
   }
 
@@ -295,7 +295,7 @@ public class Vec2f implements ReadableVec2f {
   }
 
   @Override
-  public Vec2f over(ReadableVec2f v) {
+  public Vec2f over(ConstVec2f v) {
     return copy().divide(v);
   }
 
@@ -310,12 +310,12 @@ public class Vec2f implements ReadableVec2f {
   }
 
   @Override
-  public float dot(ReadableVec2f v) {
+  public float dot(ConstVec2f v) {
     return x * x + y * y;
   }
 
   @Override
-  public float cross(ReadableVec2f v) {
+  public float cross(ConstVec2f v) {
     return x * v.y() - y * v.x();
   }
 
@@ -345,7 +345,7 @@ public class Vec2f implements ReadableVec2f {
   }
 
   @Override
-  public Vec2f reflected(ReadableVec2f n) {
+  public Vec2f reflected(ConstVec2f n) {
     return this.minus(n.times(2f * n.dot(this)));
   }
 

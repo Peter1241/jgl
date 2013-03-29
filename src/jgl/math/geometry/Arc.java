@@ -4,7 +4,7 @@
  *******************************************************************************/
 package jgl.math.geometry;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 
 /**
  * An arc.
@@ -14,16 +14,16 @@ import jgl.math.vector.ReadableVec3f;
 public class Arc {
 
   /** Center of the arc */
-  public final ReadableVec3f c;
+  public final ConstVec3f c;
 
   /** X axis of the arc plane */
-  public final ReadableVec3f x;
+  public final ConstVec3f x;
 
   /** Y axis of the arc plane */
-  public final ReadableVec3f y;
+  public final ConstVec3f y;
 
   /** Z axis of the arc plane */
-  public final ReadableVec3f z;
+  public final ConstVec3f z;
 
   /** Start angle of the arc w.r.t. its X axis (in radians) */
   public final float         start;
@@ -40,7 +40,7 @@ public class Arc {
   /**
    * Creates an arc.
    */
-  public Arc(ReadableVec3f c, ReadableVec3f x, ReadableVec3f y, float start, float end, float radius) {
+  public Arc(ConstVec3f c, ConstVec3f x, ConstVec3f y, float start, float end, float radius) {
     this.c = c;
     this.x = x;
     this.y = y;

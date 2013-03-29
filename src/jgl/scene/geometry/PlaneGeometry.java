@@ -4,7 +4,7 @@
  *******************************************************************************/
 package jgl.scene.geometry;
 
-import jgl.math.vector.ReadableVec3f;
+import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Vec3f;
 
 /**
@@ -24,7 +24,7 @@ public class PlaneGeometry extends Geometry {
    * @param xSegments - number of segments along axis 1
    * @param ySegments - number of segments along axis 2
    */
-  public PlaneGeometry(ReadableVec3f x, ReadableVec3f y, float xSize, float ySize, int xSegments, int ySegments) {
+  public PlaneGeometry(ConstVec3f x, ConstVec3f y, float xSize, float ySize, int xSegments, int ySegments) {
     int numVerts = (xSegments + 1) * (ySegments + 1);
     int numIndices = xSegments * ySegments * 6;
     init(numVerts, numIndices, Geometry.PrimitiveType.TRIANGLES);

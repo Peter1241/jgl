@@ -7,9 +7,9 @@ package jgl.core;
 import javax.media.opengl.GL2GL3;
 
 import jgl.math.vector.Mat4f;
-import jgl.math.vector.ReadableVec2f;
-import jgl.math.vector.ReadableVec3f;
-import jgl.math.vector.ReadableVec4f;
+import jgl.math.vector.ConstVec2f;
+import jgl.math.vector.ConstVec3f;
+import jgl.math.vector.ConstVec4f;
 
 /**
  * GLSL uniform variable.
@@ -86,15 +86,15 @@ public class Uniform {
     gl.glUniform4fv(loc, v.length / 4, v, 0);
   }
 
-  public void set(GL2GL3 gl, ReadableVec2f v) {
+  public void set(GL2GL3 gl, ConstVec2f v) {
     set(gl, v.x(), v.y());
   }
 
-  public void set(GL2GL3 gl, ReadableVec3f v) {
+  public void set(GL2GL3 gl, ConstVec3f v) {
     set(gl, v.x(), v.y(), v.z());
   }
 
-  public void set(GL2GL3 gl, ReadableVec4f v) {
+  public void set(GL2GL3 gl, ConstVec4f v) {
     set(gl, v.x(), v.y(), v.z(), v.w());
   }
 
