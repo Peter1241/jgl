@@ -22,7 +22,7 @@ import com.jogamp.common.nio.Buffers;
  * 
  * @author justin
  */
-public class TextureReader {
+public class TextureLoader {
 
   public static Texture loadImage(GL gl, BufferedImage image) {
     int w = image.getWidth();
@@ -72,7 +72,7 @@ public class TextureReader {
 
   public static Texture loadResource(GL gl, String resourceName) {
     try {
-      InputStream input = TextureReader.class.getClassLoader().getResourceAsStream(resourceName);
+      InputStream input = TextureLoader.class.getClassLoader().getResourceAsStream(resourceName);
       BufferedImage image = ImageIO.read(input);
       return loadImage(gl, image);
     } catch (IOException e) {

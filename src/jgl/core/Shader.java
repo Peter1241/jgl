@@ -4,13 +4,6 @@
  *******************************************************************************/
 package jgl.core;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL2;
@@ -109,40 +102,6 @@ public class Shader {
 
     log = null;
     return true;
-  }
-
-  /**
-   * Compiles shader source code from an input stream. Creates a new shader object if necessary. If
-   * compiling fails, false is returned and the error log is set.
-   */
-  public boolean compile(GL2GL3 gl, InputStream stream, Type type) {
-    try {
-      StringBuilder source = new StringBuilder();
-      BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-      String line;
-      while ((line = br.readLine()) != null) {
-        source.append(line);
-        source.append("\n");
-      }
-      stream.close();
-      return compile(gl, source.toString(), type);
-    } catch (IOException e) {
-      log = e.getMessage();
-      return false;
-    }
-  }
-
-  /**
-   * Compiles shader source code from a file. Creates a new shader object if necessary. If compiling
-   * fails, false is returned and the error log is set.
-   */
-  public boolean compile(GL2GL3 gl, File file, Type type) {
-    try {
-      return compile(gl, new FileInputStream(file), type);
-    } catch (FileNotFoundException e) {
-      log = e.getMessage();
-      return false;
-    }
   }
 
   /**
