@@ -310,15 +310,20 @@ public class Vec4d implements ConstVec4d {
   public double[] toArray() {
     return new double[] { x, y, z, w };
   }
-
+  
   @Override
-  public Vec4d copy() {
-    return new Vec4d(x, y, z, w);
+  public String toString() {
+    return String.format("{%f, %f, %f, %f}", x, y, z, w);
   }
   
   @Override
   public Vec4f toFloat() {
     return new Vec4f((float)x, (float)y, (float)z, (float)w);
+  }
+
+  @Override
+  public Vec4d copy() {
+    return new Vec4d(x, y, z, w);
   }
   
   @Override

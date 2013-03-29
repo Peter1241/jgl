@@ -310,6 +310,11 @@ public class Vec4f implements ConstVec4f {
   public float[] toArray() {
     return new float[] { x, y, z, w };
   }
+  
+  @Override
+  public String toString() {
+    return String.format("{%.5f, %.5f, %.5f, %.5f}", x, y, z, w);
+  }
 
   @Override
   public Vec4f copy() {

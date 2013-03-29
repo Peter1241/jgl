@@ -317,6 +317,11 @@ public class Vec3f implements ConstVec3f {
   public float[] toArray() {
     return new float[] { x, y, z };
   }
+  
+  @Override
+  public String toString() {
+    return String.format("{%.5f, %.5f, %.5f}", x, y, z);
+  }
 
   @Override
   public Vec3f copy() {

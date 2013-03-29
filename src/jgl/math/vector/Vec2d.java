@@ -399,6 +399,11 @@ public class Vec2d implements ConstVec2d {
   public double[] toArray() {
     return new double[] { x, y };
   }
+  
+  @Override
+  public String toString() {
+    return String.format("{%f, %f}", x, y);
+  }
 
   @Override
   public Vec2d copy() {

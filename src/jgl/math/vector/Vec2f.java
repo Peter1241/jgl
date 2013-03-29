@@ -395,6 +395,11 @@ public class Vec2f implements ConstVec2f {
   public float[] toArray() {
     return new float[] { x, y };
   }
+  
+  @Override
+  public String toString() {
+    return String.format("{%.5f, %.5f}", x, y);
+  }
 
   @Override
   public Vec2f copy() {

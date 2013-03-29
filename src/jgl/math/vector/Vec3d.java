@@ -317,6 +317,11 @@ public class Vec3d implements ConstVec3d {
   public double[] toArray() {
     return new double[] { x, y, z };
   }
+  
+  @Override
+  public String toString() {
+    return String.format("{%f, %f, %f}", x, y, z);
+  }
 
   @Override
   public Vec3d copy() {
