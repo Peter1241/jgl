@@ -52,8 +52,8 @@ public class ConeGeometry extends Geometry<VertexPN> {
         v.transform(m);
         if (i < segments - 2) {
           putIndex(segments + 1);
-          putIndex(i + 1 + segments + 1);
-          putIndex(i + 2 + segments + 1);
+          putIndex(i + 3 + segments);
+          putIndex(i + 2 + segments);
         }
       }
       
@@ -75,34 +75,40 @@ public class ConeGeometry extends Geometry<VertexPN> {
     rewind();
   }
   
+  /** Creates a cone pointed in the +X direction */
   public static ConeGeometry posX(float baseRadius, float length, int segments, boolean fillBase) {
     ConeGeometry g = new ConeGeometry(baseRadius, length, segments, fillBase);
     g.transform(Transform.rotationY(Math.PI / 2));
     return g;
   }
   
+  /** Creates a cone pointed in the -X direction */
   public static ConeGeometry negX(float baseRadius, float length, int segments, boolean fillBase) {
     ConeGeometry g = new ConeGeometry(baseRadius, length, segments, fillBase);
     g.transform(Transform.rotationY(-Math.PI / 2));
     return g;
   }
-  
+
+  /** Creates a cone pointed in the +Y direction */
   public static ConeGeometry posY(float baseRadius, float length, int segments, boolean fillBase) {
     ConeGeometry g = new ConeGeometry(baseRadius, length, segments, fillBase);
     g.transform(Transform.rotationX(-Math.PI / 2));
     return g;
   }
   
+  /** Creates a cone pointed in the -Y direction */
   public static ConeGeometry negY(float baseRadius, float length, int segments, boolean fillBase) {
     ConeGeometry g = new ConeGeometry(baseRadius, length, segments, fillBase);
     g.transform(Transform.rotationX(Math.PI / 2));
     return g;
   }
   
+  /** Creates a cone pointed in the +Z direction */
   public static ConeGeometry posZ(float baseRadius, float length, int segments, boolean fillBase) {
     return new ConeGeometry(baseRadius, length, segments, fillBase);
   }
   
+  /** Creates a cone pointed in the -Z direction */
   public static ConeGeometry negZ(float baseRadius, float length, int segments, boolean fillBase) {
     ConeGeometry g = new ConeGeometry(baseRadius, length, segments, fillBase);
     g.transform(Transform.rotationY(Math.PI));
