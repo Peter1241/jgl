@@ -1,3 +1,6 @@
+/*******************************************************************************
+ *  Copyright (C) 2013 Justin Stoecker. The MIT License.
+ *******************************************************************************/
 package jgl.scene.geometry.extra;
 
 import jgl.math.vector.Transform;
