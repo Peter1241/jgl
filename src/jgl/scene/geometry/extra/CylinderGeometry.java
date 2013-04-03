@@ -55,7 +55,6 @@ public class CylinderGeometry extends Geometry<VertexPN> {
       // top
       {
         int startIndex = 2 * segments;
-        System.out.println(startIndex);
         VertexPN v = new VertexPN().position(topRadius, 0, length / 2).normal(0, 0, 1);
         for (int i = 0; i < segments; i++) {
           putVertex(v);
@@ -92,5 +91,53 @@ public class CylinderGeometry extends Geometry<VertexPN> {
         t.transform(m);
       }
     }
+    
+    rewind();
+  }
+  
+  /** Creates a cylinder around the +X axis */
+  public static CylinderGeometry posX(float topRadius, float bottomRadius, float length, int segments,
+      boolean fillEnds) {
+    CylinderGeometry g = new CylinderGeometry(topRadius, bottomRadius, length, segments, fillEnds);
+    g.transform(Transform.rotationY(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a cylinder around the -X axis */
+  public static CylinderGeometry negX(float topRadius, float bottomRadius, float length, int segments,
+      boolean fillEnds) {
+    CylinderGeometry g = new CylinderGeometry(topRadius, bottomRadius, length, segments, fillEnds);
+    g.transform(Transform.rotationY(-Math.PI / 2));
+    return g;
+  }
+
+  /** Creates a cylinder around the +Y axis */
+  public static CylinderGeometry posY(float topRadius, float bottomRadius, float length, int segments,
+      boolean fillEnds) {
+    CylinderGeometry g = new CylinderGeometry(topRadius, bottomRadius, length, segments, fillEnds);
+    g.transform(Transform.rotationX(-Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a cylinder around the -Y axis */
+  public static CylinderGeometry negY(float topRadius, float bottomRadius, float length, int segments,
+      boolean fillEnds) {
+    CylinderGeometry g = new CylinderGeometry(topRadius, bottomRadius, length, segments, fillEnds);
+    g.transform(Transform.rotationX(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a cylinder around the +Z axis */
+  public static CylinderGeometry posZ(float topRadius, float bottomRadius, float length, int segments,
+      boolean fillEnds) {
+    return new CylinderGeometry(topRadius, bottomRadius, length, segments, fillEnds);
+  }
+  
+  /** Creates a cylinder around the -Z axis */
+  public static CylinderGeometry negZ(float topRadius, float bottomRadius, float length, int segments,
+      boolean fillEnds) {
+    CylinderGeometry g = new CylinderGeometry(topRadius, bottomRadius, length, segments, fillEnds);
+    g.transform(Transform.rotationY(Math.PI));
+    return g;
   }
 }

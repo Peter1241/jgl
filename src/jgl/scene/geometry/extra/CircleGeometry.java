@@ -3,6 +3,7 @@
  *******************************************************************************/
 package jgl.scene.geometry.extra;
 
+import jgl.math.vector.Transform;
 import jgl.scene.geometry.Geometry;
 import jgl.scene.geometry.VertexPN;
 
@@ -63,5 +64,86 @@ public class CircleGeometry extends Geometry<VertexPN> {
     }
     
     rewind();
+  }
+  
+  
+  /** Creates a circle around the +X axis */
+  public static CircleGeometry posX(float innerRadius, float outerRadius, int segments) {
+    CircleGeometry g = new CircleGeometry(innerRadius, outerRadius, segments);
+    g.transform(Transform.rotationY(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a circle around the -X axis */
+  public static CircleGeometry negX(float innerRadius, float outerRadius, int segments) {
+    CircleGeometry g = new CircleGeometry(innerRadius, outerRadius, segments);
+    g.transform(Transform.rotationY(-Math.PI / 2));
+    return g;
+  }
+
+  /** Creates a circle around the +Y axis */
+  public static CircleGeometry posY(float innerRadius, float outerRadius, int segments) {
+    CircleGeometry g = new CircleGeometry(innerRadius, outerRadius, segments);
+    g.transform(Transform.rotationX(-Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a circle around the -Y axis */
+  public static CircleGeometry negY(float innerRadius, float outerRadius, int segments) {
+    CircleGeometry g = new CircleGeometry(innerRadius, outerRadius, segments);
+    g.transform(Transform.rotationX(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a circle around the +Z axis */
+  public static CircleGeometry posZ(float innerRadius, float outerRadius, int segments) {
+    return new CircleGeometry(innerRadius, outerRadius, segments);
+  }
+  
+  /** Creates a circle around the -Z axis */
+  public static CircleGeometry negZ(float innerRadius, float outerRadius, int segments) {
+    CircleGeometry g = new CircleGeometry(innerRadius, outerRadius, segments);
+    g.transform(Transform.rotationY(Math.PI));
+    return g;
+  }
+  
+  /** Creates a circle around the +X axis */
+  public static CircleGeometry posX(float radius, int segments) {
+    CircleGeometry g = new CircleGeometry(radius, segments);
+    g.transform(Transform.rotationY(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a circle around the -X axis */
+  public static CircleGeometry negX(float radius, int segments) {
+    CircleGeometry g = new CircleGeometry(radius, segments);
+    g.transform(Transform.rotationY(-Math.PI / 2));
+    return g;
+  }
+
+  /** Creates a circle around the +Y axis */
+  public static CircleGeometry posY(float radius, int segments) {
+    CircleGeometry g = new CircleGeometry(radius, segments);
+    g.transform(Transform.rotationX(-Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a circle around the -Y axis */
+  public static CircleGeometry negY(float radius, int segments) {
+    CircleGeometry g = new CircleGeometry(radius, segments);
+    g.transform(Transform.rotationX(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates a circle around the +Z axis */
+  public static CircleGeometry posZ(float radius, int segments) {
+    return new CircleGeometry(radius, segments);
+  }
+  
+  /** Creates a circle around the -Z axis */
+  public static CircleGeometry negZ(float radius, int segments) {
+    CircleGeometry g = new CircleGeometry(radius, segments);
+    g.transform(Transform.rotationY(Math.PI));
+    return g;
   }
 }
