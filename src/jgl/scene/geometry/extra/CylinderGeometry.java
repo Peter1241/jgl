@@ -28,24 +28,51 @@ public class CylinderGeometry extends Geometry<VertexPN> {
 
     if (fillEnds) {
       primitive = Primitive.TRIANGLES;
-      
       allocate(4 * segments, 12 * segments - 12);
+
+      Mat4f m = Transform.rotationZ(Math.PI * 2 / segments);
       
       // side
-      Mat4f m = Transform.rotationZ(Math.PI * 2 / segments);
-      Vec3f n = new Vec3f(length, 0, (bottomRadius - topRadius)).normalized();
-      VertexPN b = new VertexPN().position(bottomRadius, 0, -length / 2).normal(n);
-      VertexPN t = new VertexPN().position(topRadius, 0, length / 2).normal(n);
-      for (int i = 0; i <= segments; i++) {
-        putVertex(b);
-        putVertex(t);
-        b.transform(m);
-        t.transform(m);
+      {
+        Vec3f n = new Vec3f(length, 0, (bottomRadius - topRadius)).normalized();
+        VertexPN b = new VertexPN().position(bottomRadius, 0, -length / 2).normal(n);
+        VertexPN t = new VertexPN().position(topRadius, 0, length / 2).normal(n);
+        for (int i = 0; i < segments; i++) {
+          putVertex(t);
+          putVertex(b);
+          b.transform(m);
+          t.transform(m);
+
+          int cur = 2 * i;
+          int next = 2 * ((i + 1) % segments);
+          putIndices(new int[] { cur, cur + 1, next + 1, cur, next + 1, next });
+        }
       }
       
       // top
-      
+      {
+        int startIndex = 2 * segments;
+        System.out.println(startIndex);
+        VertexPN v = new VertexPN().position(topRadius, 0, length / 2).normal(0, 0, 1);
+        for (int i = 0; i < segments; i++) {
+          putVertex(v);
+          v.transform(m);
+          if (i < segments - 2)
+            putIndices(new int[] { startIndex, startIndex + i + 1, startIndex + i + 2 });
+        }
+      }
+
       // bottom
+      {
+        int startIndex = 3 * segments;
+        VertexPN v = new VertexPN().position(bottomRadius, 0, -length / 2).normal(0, 0, -1);
+        for (int i = 0; i < segments; i++) {
+          putVertex(v);
+          v.transform(m);
+          if (i < segments - 2)
+            putIndices(new int[] { startIndex, startIndex + i + 2, startIndex + i + 1 });
+        }
+      }
       
     } else {
       primitive = Primitive.TRIANGLE_STRIP;
@@ -56,8 +83,8 @@ public class CylinderGeometry extends Geometry<VertexPN> {
       VertexPN b = new VertexPN().position(bottomRadius, 0, -length / 2).normal(n);
       VertexPN t = new VertexPN().position(topRadius, 0, length / 2).normal(n);
       for (int i = 0; i <= segments; i++) {
-        putVertex(b);
         putVertex(t);
+        putVertex(b);
         b.transform(m);
         t.transform(m);
       }
