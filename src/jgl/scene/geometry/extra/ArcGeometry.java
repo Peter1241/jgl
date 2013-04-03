@@ -3,6 +3,7 @@
  *******************************************************************************/
 package jgl.scene.geometry.extra;
 
+import jgl.math.vector.Transform;
 import jgl.scene.geometry.Geometry;
 import jgl.scene.geometry.VertexPN;
 
@@ -47,7 +48,7 @@ public class ArcGeometry extends Geometry<VertexPN> {
    */
   public ArcGeometry(float innerRadius, float outerRadius, double radians, int segments) {
     super(Primitive.TRIANGLE_STRIP, VertexPN.CONSTRUCTOR);
-    allocate(segments * 2, 0);
+    allocate(segments * 2 + 2, 0);
 
     double theta = radians / segments;
     float c = (float) Math.cos(theta);
@@ -56,7 +57,7 @@ public class ArcGeometry extends Geometry<VertexPN> {
     float y = 0;
 
     VertexPN v = new VertexPN().position(x, y, 0).normal(0, 0, 1);
-    for (int i = 0; i < segments; i++) {
+    for (int i = 0; i <= segments; i++) {
       putVertex(v.position(x * innerRadius, y * innerRadius, 0));
       putVertex(v.position(x * outerRadius, y * outerRadius, 0));
       float oldX = x;
@@ -65,5 +66,86 @@ public class ArcGeometry extends Geometry<VertexPN> {
     }
 
     rewind();
+  }
+  
+  
+  /** Creates an arc around the +X axis */
+  public static ArcGeometry posX(float innerRadius, float outerRadius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(innerRadius, outerRadius, radians, segments);
+    g.transform(Transform.rotationY(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates an arc around the -X axis */
+  public static ArcGeometry negX(float innerRadius, float outerRadius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(innerRadius, outerRadius, radians, segments);
+    g.transform(Transform.rotationY(-Math.PI / 2));
+    return g;
+  }
+
+  /** Creates an arc around the +Y axis */
+  public static ArcGeometry posY(float innerRadius, float outerRadius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(innerRadius, outerRadius, radians, segments);
+    g.transform(Transform.rotationX(-Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates an arc around the -Y axis */
+  public static ArcGeometry negY(float innerRadius, float outerRadius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(innerRadius, outerRadius, radians, segments);
+    g.transform(Transform.rotationX(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates an arc around the +Z axis */
+  public static ArcGeometry posZ(float innerRadius, float outerRadius, double radians, int segments) {
+    return new ArcGeometry(innerRadius, outerRadius, radians, segments);
+  }
+  
+  /** Creates an arc around the -Z axis */
+  public static ArcGeometry negZ(float innerRadius, float outerRadius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(innerRadius, outerRadius, radians, segments);
+    g.transform(Transform.rotationY(Math.PI));
+    return g;
+  }
+  
+  /** Creates an arc around the +X axis */
+  public static ArcGeometry posX(float radius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(radius, radians, segments);
+    g.transform(Transform.rotationY(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates an arc around the -X axis */
+  public static ArcGeometry negX(float radius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(radius, radians, segments);
+    g.transform(Transform.rotationY(-Math.PI / 2));
+    return g;
+  }
+
+  /** Creates an arc around the +Y axis */
+  public static ArcGeometry posY(float radius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(radius, radians, segments);
+    g.transform(Transform.rotationX(-Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates an arc around the -Y axis */
+  public static ArcGeometry negY(float radius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(radius, radians, segments);
+    g.transform(Transform.rotationX(Math.PI / 2));
+    return g;
+  }
+  
+  /** Creates an arc around the +Z axis */
+  public static ArcGeometry posZ(float radius, double radians, int segments) {
+    return new ArcGeometry(radius, radians, segments);
+  }
+  
+  /** Creates an arc around the -Z axis */
+  public static ArcGeometry negZ(float radius, double radians, int segments) {
+    ArcGeometry g = new ArcGeometry(radius, radians, segments);
+    g.transform(Transform.rotationY(Math.PI));
+    return g;
   }
 }
