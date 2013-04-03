@@ -1,27 +1,271 @@
-/*******************************************************************************
- *  Copyright (C) 2013 Justin Stoecker
- *  The MIT License. See LICENSE in project root.
- *******************************************************************************/
 package jgl.scene.geometry;
 
-import java.nio.Buffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
+import java.nio.ByteBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
-import jgl.math.vector.Vec2f;
-import jgl.math.vector.Vec3f;
+import jgl.math.vector.Mat4f;
+import jgl.scene.geometry.Vertex.Constructor;
+
+import com.jogamp.common.nio.Buffers;
 
 /**
- * Stores geometry data: vertex positions, normals, texture coordinates, and face indices.
+ * Generic storage of vertices and indices. Vertex data is stored interleaved in a single buffer;
+ * its layout is determined by the vertex type parameter. Actual storage is done in direct byte
+ * buffers, but this class provides convenience methods for manipulating vertices rather than bytes.
  * 
  * @author justin
  */
-public abstract class Geometry {
+public class Geometry<T extends Vertex> {
 
-  public enum PrimitiveType {
+  private final Vertex                vertexType;
+  private final Vertex.Constructor<T> constructor;
+  private IndexType                   indexType;
+  private ByteBuffer                  vertices;
+  private ByteBuffer                  indices;
+  protected Primitive                 primitive;
+
+  /**
+   * Creates empty geometry and allocates buffers to fixed sizes.
+   * 
+   * @param type - type of primitives that will be stored.
+   * @param constructor - constructor class for instantiating empty vertices.
+   * @param numVertices - number of vertices to store.
+   * @param numIndices - number of indices to store.
+   */
+  public Geometry(Primitive type, Constructor<T> constructor, int numVertices, int numIndices) {
+    this.primitive = type;
+    this.constructor = constructor;
+    this.vertexType = constructor.construct();
+    allocate(numVertices, numIndices);
+  }
+
+  /**
+   * Creates empty geometry without allocating space. Intended for subclasses so they can calculate
+   * number of vertices & indices before calling the super constructor.
+   */
+  protected Geometry(Primitive type, Vertex.Constructor<T> constructor) {
+    this.primitive = type;
+    this.constructor = constructor;
+    this.vertexType = constructor.construct();
+  }
+
+  /**
+   * Creates empty geometry without allocating space. Intended for subclasses so they can calculate
+   * number of vertices & indices before calling the super constructor.
+   */
+  protected Geometry(Vertex.Constructor<T> constructor) {
+    this.constructor = constructor;
+    this.vertexType = constructor.construct();
+  }
+
+  /**
+   * Initialize buffers to required sizes.
+   */
+  protected void allocate(int numVertices, int numIndices) {
+    indexType = IndexType.fromVertexCount(numVertices);
+    vertices = Buffers.newDirectByteBuffer(vertexType.stride() * numVertices);
+    if (numIndices > 0)
+      indices = Buffers.newDirectByteBuffer(indexType.size * numIndices);
+  }
+
+  /**
+   * Returns the primitive type.
+   */
+  public Primitive getPrimitive() {
+    return primitive;
+  }
+
+  /**
+   * Returns the vertex type.
+   */
+  public Vertex getVertexType() {
+    return vertexType;
+  }
+
+  /**
+   * Returns the index type.
+   */
+  public IndexType getIndexType() {
+    return indexType;
+  }
+
+  /**
+   * Returns the total number of vertices the geometry can store.
+   */
+  public int numVertices() {
+    return vertices.capacity() / vertexType.stride();
+  }
+
+  /**
+   * Returns the total number of indices the geometry can store.
+   */
+  public int numIndices() {
+    return indices == null ? 0 : indices.capacity() / indexType.size;
+  }
+
+  /**
+   * Returns the current vertex position.
+   */
+  public int vertexPosition() {
+    return vertices.position() / vertexType.stride();
+  }
+
+  /**
+   * Returns the current index position.
+   */
+  public int indexPosition() {
+    return indices == null ? 0 : indices.position() / indexType.size;
+  }
+
+  /**
+   * Sets the vertex and index positions to the start.
+   */
+  public void rewind() {
+    vertices.rewind();
+    if (indices != null)
+      indices.rewind();
+  }
+
+  /**
+   * Reads vertex at the current vertex position, then increments the position.
+   */
+  public T getVertex() {
+    T vertex = constructor.construct();
+    vertex.get(vertices);
+    return vertex;
+  }
+
+  /**
+   * Reads vertex at the specified vertex position. The position remains unchanged.
+   */
+  public T getVertex(int position) {
+    int prevPosition = vertexPosition();
+    vertices.position(position * vertexType.stride());
+    T vertex = getVertex();
+    vertices.position(prevPosition);
+    return vertex;
+  }
+
+  /**
+   * Writes vertex at the current vertex position, then increments the position.
+   */
+  public void putVertex(T vertex) {
+    vertex.put(vertices);
+  }
+
+  /**
+   * Writes vertex at the specified vertex position. The position remains unchanged.
+   */
+  public void putVertex(int position, T vertex) {
+    int prevPosition = vertexPosition();
+    vertices.position(position * vertexType.stride());
+    putVertex(vertex);
+    vertices.position(prevPosition);
+  }
+
+  /**
+   * Reads index at the current index position, then increments the position.
+   */
+  public int getIndex() {
+    switch (indexType) {
+    case UBYTE:
+      return indices.get();
+    case USHORT:
+      return indices.getShort();
+    case UINT:
+      return indices.getInt();
+    case NONE:
+    default:
+      return 0;
+    }
+  }
+
+  /**
+   * Writes index at the current index position, then increments the position.
+   */
+  public void putIndex(int value) {
+    switch (indexType) {
+    case UBYTE:
+      indices.put((byte) value);
+      break;
+    case USHORT:
+      indices.putShort((short) value);
+      break;
+    case UINT:
+      indices.putInt(value);
+      break;
+    case NONE:
+    default:
+    }
+  }
+
+  /**
+   * Writes index at the specified index position. The position remains unchanged.
+   */
+  public void putIndex(int position, int value) {
+    int prevPosition = indexPosition();
+    indices.position(position * indexType.size);
+    putIndex(value);
+    vertices.position(prevPosition);
+  }
+
+  /**
+   * Writes indices starting at the current index position, then increments position by
+   * indices.length.
+   */
+  public void putIndices(int[] indices) {
+    for (int i : indices)
+      putIndex(i);
+  }
+
+  /**
+   * Applies a transformation matrix to all vertices.
+   */
+  public void transform(Mat4f matrix) {
+    for (int i = 0; i < numVertices(); i++) {
+      T vertex = getVertex(i);
+      vertex.transform(matrix);
+      putVertex(i, vertex);
+    }
+  }
+
+  /**
+   * Render the geometry using immediate mode.
+   */
+  public void drawImmediate(GL2 gl) {
+    rewind();
+    gl.glBegin(primitive.glConstant);
+    if (indices == null) {
+      for (int i = 0; i < numVertices(); i++)
+        getVertex().drawImmediate(gl);
+    } else {
+      for (int i = 0; i < numIndices(); i++)
+        getVertex(getIndex()).drawImmediate(gl);
+    }
+    gl.glEnd();
+    rewind();
+  }
+
+  /**
+   * Render the geometry using vertex arrays.
+   */
+  public void drawArrays(GL2 gl) {
+    rewind();
+    vertexType.startArrays(gl, vertices);
+    if (indices == null)
+      gl.glDrawArrays(primitive.glConstant, 0, numVertices());
+    else
+      gl.glDrawElements(primitive.glConstant, numIndices(), indexType.glConstant, indices);
+    vertexType.endArrays(gl);
+    rewind();
+  }
+
+  /**
+   * Describes a valid OpenGL primitive type (GL_QUADS are excluded).
+   */
+  public enum Primitive {
     POINTS(GL.GL_POINTS),
     LINES(GL.GL_LINES),
     LINE_LOOP(GL.GL_LINE_LOOP),
@@ -30,143 +274,38 @@ public abstract class Geometry {
     TRIANGLE_FAN(GL.GL_TRIANGLE_FAN),
     TRIANGLE_STRIP(GL.GL_TRIANGLE_STRIP);
 
-    public final int value;
+    public final int glConstant;
 
-    private PrimitiveType(int value) {
-      this.value = value;
-    }
-  }
-
-  public FloatBuffer   vertices;
-  public FloatBuffer   normals;
-  public FloatBuffer   texCoords;
-  public IntBuffer     indices;
-  public PrimitiveType type;
-
-  protected void init(int numVertices, int numIndices, PrimitiveType type) {
-    this.type = type;
-
-    // each vertex position & normal has 3 values: x, y, z
-    vertices = FloatBuffer.allocate(numVertices * 3);
-    normals = FloatBuffer.allocate(numVertices * 3);
-    // each vertex texture coordinate has 2 values: u, v
-    texCoords = FloatBuffer.allocate(numVertices * 2);
-
-    if (numIndices > 0)
-      indices = IntBuffer.allocate(numIndices);
-  }
-
-  protected void rewindBuffers() {
-    vertices.rewind();
-    normals.rewind();
-    texCoords.rewind();
-    if (indices != null)
-      indices.rewind();
-  }
-
-  /**
-   * Calculates the number of primitives (points, lines, or triangles) in the geometry.
-   */
-  public int numPrimitives() {
-    Buffer buffer = isIndexed() ? indices : vertices;
-    switch (type) {
-    case POINTS:
-      return buffer.capacity() / 3;
-    case LINES:
-      return buffer.capacity() / 6;
-    case LINE_LOOP:
-      return buffer.capacity() / 3;
-    case LINE_STRIP:
-      return buffer.capacity() / 3 - 1;
-    case TRIANGLES:
-      return buffer.capacity() / 3;
-    case TRIANGLE_FAN:
-      return buffer.capacity() / 3 - 2;
-    case TRIANGLE_STRIP:
-      return buffer.capacity() / 3 - 2;
-    default:
-      return 0;
+    private Primitive(int value) {
+      this.glConstant = value;
     }
   }
 
   /**
-   * Calculates the number of vertices in the geometry.
+   * Index type for the geometry.
    */
-  public int numVertices() {
-    return vertices.capacity() / 3;
-  }
+  public enum IndexType {
+    NONE(0, 0),
+    UBYTE(1, GL.GL_UNSIGNED_BYTE),
+    USHORT(2, GL.GL_UNSIGNED_SHORT),
+    UINT(4, GL.GL_UNSIGNED_INT);
 
-  /**
-   * The number of indices in the geometry.
-   */
-  public int numIndices() {
-    return indices.capacity();
-  }
+    public final int size;
+    public final int glConstant;
 
-  /**
-   * Returns true if indices are present.
-   */
-  public boolean isIndexed() {
-    return indices != null;
-  }
-  
-  /**
-   * Gets the next vertex from the geometry, or null if there are no more.
-   */
-  public Vec3f nextVertex() {
-    if (!vertices.hasRemaining())
-      return null;
-    return new Vec3f(vertices.get(), vertices.get(), vertices.get());
-  }
-  
-  /**
-   * Gets the next normal from the geometry, or null if there are no more.
-   */
-  public Vec3f nextNormal() {
-    if (!normals.hasRemaining())
-      return null;
-    return new Vec3f(normals.get(), normals.get(), normals.get());
-  }
-  
-  /**
-   * Gets the next texture coordinate from the geometry, or null if there are no more.
-   */
-  public Vec2f nextTexCoord() {
-    if (!texCoords.hasRemaining())
-      return null;
-    return new Vec2f(texCoords.get(), texCoords.get());
-  }
-  
-  public Vec3f getVertex(int i) {
-    int j = i * 3;
-    return new Vec3f(vertices.get(j), vertices.get(j + 1), vertices.get(j + 2));
-  }
-
-  /**
-   * Renders the geometry using immediate mode OpenGL. Useful for quick testing, but deprecated in
-   * newer versions of OpenGL.
-   */
-  public void drawImmediate(GL2 gl) {
-    gl.glBegin(type.value);
-    if (isIndexed()) {
-      for (int i = 0; i < numIndices(); i++)
-        immedateVertex(gl, indices.get());
-    } else {
-      for (int i = 0; i < numVertices(); i++) {
-        immedateVertex(gl, i);
-      }
+    IndexType(int size, int constant) {
+      this.size = size;
+      this.glConstant = constant;
     }
-    gl.glEnd();
 
-    rewindBuffers();
-  }
-
-  private void immedateVertex(GL2 gl, int i) {
-    normals.position(i * 3);
-    texCoords.position(i * 2);
-    vertices.position(i * 3);
-    gl.glNormal3fv(normals);
-    gl.glTexCoord2fv(texCoords);
-    gl.glVertex3fv(vertices);
+    public static IndexType fromVertexCount(int vertexCount) {
+      if (vertexCount == 0)
+        return NONE;
+      if (vertexCount <= 256)
+        return UBYTE;
+      if (vertexCount <= 65536)
+        return USHORT;
+      return UINT;
+    }
   }
 }
