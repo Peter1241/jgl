@@ -120,7 +120,9 @@ public class PlaneGeometry extends Geometry<VertexPNT> {
    * both 1.
    */
   public static PlaneGeometry posX(float width, float height) {
-    return posX(width, height);
+    PlaneGeometry g = new PlaneGeometry(width, height);
+    g.transform(Transform.rotationY(Math.PI/2));
+    return g;
   }
 
   /**
@@ -128,7 +130,9 @@ public class PlaneGeometry extends Geometry<VertexPNT> {
    * both 1.
    */
   public static PlaneGeometry negX(float width, float height) {
-    return negX(width, height);
+    PlaneGeometry g = new PlaneGeometry(width, height);
+    g.transform(Transform.rotationY(-Math.PI/2));
+    return g;
   }
 
   /**
@@ -136,7 +140,9 @@ public class PlaneGeometry extends Geometry<VertexPNT> {
    * both 1.
    */
   public static PlaneGeometry posY(float width, float height) {
-    return posY(width, height);
+    PlaneGeometry g = new PlaneGeometry(width, height);
+    g.transform(Transform.rotationX(Math.PI/2));
+    return g;
   }
 
   /**
@@ -144,7 +150,9 @@ public class PlaneGeometry extends Geometry<VertexPNT> {
    * both 1.
    */
   public static PlaneGeometry negY(float width, float height) {
-    return negY(width, height);
+    PlaneGeometry g = new PlaneGeometry(width, height);
+    g.transform(Transform.rotationX(-Math.PI/2));
+    return g;
   }
 
   /**
@@ -152,7 +160,7 @@ public class PlaneGeometry extends Geometry<VertexPNT> {
    * both 1.
    */
   public static PlaneGeometry posZ(float width, float height) {
-    return posZ(width, height);
+    return new PlaneGeometry(width, height);
   }
 
   /**
@@ -160,6 +168,8 @@ public class PlaneGeometry extends Geometry<VertexPNT> {
    * both 1.
    */
   public static PlaneGeometry negZ(float width, float height) {
-    return negZ(width, height);
+    PlaneGeometry g = new PlaneGeometry(width, height);
+    g.transform(Transform.rotationY(Math.PI));
+    return g;
   }
 }
