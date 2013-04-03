@@ -30,7 +30,7 @@ public class SphereGeometry extends Geometry<VertexPNT> {
     
     while (box.vertexPosition() < box.numVertices()) {
       VertexPNT vertex = box.getVertex();
-      vertex.position.normalize();
+      vertex.position.normalize().multiply(radius);
       vertex.normal = vertex.position;
       putVertex(vertex);
     }

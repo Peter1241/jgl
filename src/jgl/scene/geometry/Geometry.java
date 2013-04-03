@@ -144,11 +144,16 @@ public class Geometry<T extends Vertex> {
    * Reads vertex at the specified vertex position. The position remains unchanged.
    */
   public T getVertex(int position) {
+    try {
     int prevPosition = vertexPosition();
     vertices.position(position * vertexType.stride());
     T vertex = getVertex();
     vertices.position(prevPosition);
     return vertex;
+    } catch (Exception e) {
+      System.out.println("WTF");
+      return null;
+    }
   }
 
   /**
@@ -167,16 +172,18 @@ public class Geometry<T extends Vertex> {
     putVertex(vertex);
     vertices.position(prevPosition);
   }
-
+  
   /**
    * Reads index at the current index position, then increments the position.
    */
   public int getIndex() {
     switch (indexType) {
     case UBYTE:
-      return indices.get();
+      byte byteVal = indices.get();
+      return byteVal < 0 ? 256 + byteVal : byteVal;
     case USHORT:
-      return indices.getShort();
+      short shortVal = indices.getShort();
+      return shortVal < 0 ? 65536 + shortVal : shortVal;
     case UINT:
       return indices.getInt();
     case NONE:
