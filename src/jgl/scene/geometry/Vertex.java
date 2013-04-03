@@ -45,7 +45,7 @@ public interface Vertex {
   void drawImmediate(GL2 gl);
   
   /**
-   * Setup pointers for vertex array rendering using a host vertex buffer.
+   * Setup pointers for vertex array rendering using the bound vertex buffer object.
    */
   void startArrays(GL2 gl);
   
