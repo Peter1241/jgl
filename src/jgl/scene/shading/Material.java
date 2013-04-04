@@ -1,15 +1,18 @@
 /*******************************************************************************
  *  Copyright (C) 2013 Justin Stoecker. The MIT License.
  *******************************************************************************/
-package jgl.scene.mesh;
+package jgl.scene.shading;
+
 import javax.media.opengl.GL;
 
+/**
+ * Describes surface properties used for shading.
+ */
+public interface Material {
 
-public interface ModelRenderer {
-
-  void init(GL gl);
+  void enable(GL gl);
   
-  void draw(GL gl);
+  void disable(GL gl);
   
-  void delete(GL gl);
+  void dispose(GL gl);
 }

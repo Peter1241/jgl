@@ -1,7 +1,7 @@
 /*******************************************************************************
  *  Copyright (C) 2013 Justin Stoecker. The MIT License.
  *******************************************************************************/
-package jgl.scene.lights;
+package jgl.scene.shading;
 
 import jgl.math.vector.Vec3f;
 

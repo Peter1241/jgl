@@ -93,6 +93,20 @@ public class Geometry<T extends Vertex> {
   public IndexType getIndexType() {
     return indexType;
   }
+  
+  /**
+   * Raw vertex buffer.
+   */
+  public ByteBuffer getVertices() {
+    return vertices;
+  }
+
+  /**
+   * Raw index buffer.
+   */
+  public ByteBuffer getIndices() {
+    return indices;
+  }
 
   /**
    * Returns the total number of vertices the geometry can store.
