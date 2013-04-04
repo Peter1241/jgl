@@ -1,11 +1,11 @@
-package jgl.scene.geometry;
+package jgl.geometry;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.media.opengl.GL2;
 
-import jgl.scene.shading.Material;
+import jgl.shading.Material;
 
 /**
  * Stores geometry and materials.

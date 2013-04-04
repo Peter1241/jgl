@@ -1,7 +1,7 @@
 /*******************************************************************************
  *  Copyright (C) 2013 Justin Stoecker. The MIT License.
  *******************************************************************************/
-package jgl.scene.geometry;
+package jgl.geometry;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;

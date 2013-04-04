@@ -1,11 +1,11 @@
 /*******************************************************************************
  *  Copyright (C) 2013 Justin Stoecker. The MIT License.
  *******************************************************************************/
-package jgl.scene.geometry.extra;
+package jgl.geometry.extra;
 
+import jgl.geometry.Geometry;
+import jgl.geometry.VertexP;
 import jgl.math.vector.Transform;
-import jgl.scene.geometry.Geometry;
-import jgl.scene.geometry.VertexP;
 
 /**
  * Creates a grid. Similar to PlaneGeometry, but drawn with GL_LINES and no normals or texture

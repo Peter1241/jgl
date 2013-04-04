@@ -1,10 +1,10 @@
 /*******************************************************************************
  *  Copyright (C) 2013 Justin Stoecker. The MIT License.
  *******************************************************************************/
-package jgl.scene.geometry.extra;
+package jgl.geometry.extra;
 
-import jgl.scene.geometry.Geometry;
-import jgl.scene.geometry.VertexPNT;
+import jgl.geometry.Geometry;
+import jgl.geometry.VertexPNT;
 
 /**
  * A triangulated sphere.

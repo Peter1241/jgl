@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jgl.geometry.Geometry;
+import jgl.geometry.VertexPNT;
+import jgl.geometry.Geometry.Primitive;
+import jgl.geometry.VertexPNT.GeometryPNT;
 import jgl.math.vector.Vec2f;
 import jgl.math.vector.Vec3f;
-import jgl.scene.geometry.Geometry;
-import jgl.scene.geometry.Geometry.Primitive;
-import jgl.scene.geometry.VertexPNT;
-import jgl.scene.geometry.VertexPNT.GeometryPNT;
 
 /**
  * Loads OBJ models and materials into a mesh.

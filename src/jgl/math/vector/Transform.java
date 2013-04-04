@@ -3,8 +3,8 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import jgl.cameras.Camera;
 import jgl.core.Viewport;
-import jgl.scene.cameras.Camera;
 
 /**
  * Transformation matrix functions.

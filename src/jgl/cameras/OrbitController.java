@@ -1,7 +1,7 @@
 /*******************************************************************************
  *  Copyright (C) 2013 Justin Stoecker. The MIT License.
  *******************************************************************************/
-package jgl.scene.cameras;
+package jgl.cameras;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

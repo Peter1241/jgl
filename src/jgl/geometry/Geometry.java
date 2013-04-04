@@ -1,15 +1,15 @@
 /*******************************************************************************
  *  Copyright (C) 2013 Justin Stoecker. The MIT License.
  *******************************************************************************/
-package jgl.scene.geometry;
+package jgl.geometry;
 
 import java.nio.ByteBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
+import jgl.geometry.Vertex.Constructor;
 import jgl.math.vector.Mat4f;
-import jgl.scene.geometry.Vertex.Constructor;
 
 import com.jogamp.common.nio.Buffers;
 

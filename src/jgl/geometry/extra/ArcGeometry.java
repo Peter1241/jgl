@@ -1,11 +1,11 @@
 /*******************************************************************************
  *  Copyright (C) 2013 Justin Stoecker. The MIT License.
  *******************************************************************************/
-package jgl.scene.geometry.extra;
+package jgl.geometry.extra;
 
+import jgl.geometry.Geometry;
+import jgl.geometry.VertexPN;
 import jgl.math.vector.Transform;
-import jgl.scene.geometry.Geometry;
-import jgl.scene.geometry.VertexPN;
 
 /**
  * A triangulated circular arc.

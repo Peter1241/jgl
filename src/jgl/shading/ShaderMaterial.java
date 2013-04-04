@@ -1,4 +1,4 @@
-package jgl.scene.shading;
+package jgl.shading;
 
 import javax.media.opengl.GL;
 
