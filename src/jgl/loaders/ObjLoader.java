@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,12 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jgl.geometry.Geometry;
-import jgl.geometry.VertexPNT;
 import jgl.geometry.Geometry.Primitive;
+import jgl.geometry.Mesh.MeshPart;
+import jgl.geometry.Mesh;
+import jgl.geometry.VertexPNT;
 import jgl.geometry.VertexPNT.GeometryPNT;
 import jgl.math.vector.Vec2f;
 import jgl.math.vector.Vec3f;
+import jgl.math.vector.Vec4f;
+import jgl.shading.Material;
+import jgl.shading.PhongMaterial;
 
 /**
  * Loads OBJ models and materials into a mesh.
@@ -33,14 +38,19 @@ public class ObjLoader {
   private List<Triangle>                    triangles = new ArrayList<Triangle>();
   private StringSplitter                    splitter  = new StringSplitter();
   private Map<Integer, Map<String, Vertex>> maps      = new HashMap<Integer, Map<String, Vertex>>();
+  private List<Map<String, Material>>       mtlLibs   = new ArrayList<Map<String, Material>>();
   private Map<String, Vertex>               map;
   private int                               smoothGroup;
   private int                               iv;
   private int                               ivt;
   private int                               ivn;
-
-  public Geometry<?> load(File file) {
+  private File                              root;
+  private List<MeshPart>                    parts     = new ArrayList<MeshPart>();
+  private MeshPart                          currentPart;
+  
+  public Mesh load(File file) {
     try {
+      this.root = file.getParentFile();
       return load(new FileInputStream(file));
     } catch (FileNotFoundException e) {
       System.err.println(e.getMessage());
@@ -48,15 +58,17 @@ public class ObjLoader {
     }
   }
 
-  public Geometry<?> load(InputStream stream) {
+  private Mesh load(InputStream stream) {
     v.clear();
     vt.clear();
     vn.clear();
     verts.clear();
     triangles.clear();
+    parts.clear();
     smoothGroup = 1;
     map = getMap();
-
+    currentPart = new MeshPart(new PhongMaterial(), 0, 0);
+    
     try {
       BufferedReader br = new BufferedReader(new InputStreamReader(stream));
       String line;
@@ -64,41 +76,45 @@ public class ObjLoader {
         parseLine(line);
       }
       stream.close();
-
-      Geometry<?> geom = createGeometry();
+      endCurrentPart();
       
-      //TODO load materials
-      
-      return geom;
+      return createMesh();
 
     } catch (IOException e) {
       System.err.println(e.getMessage());
       return null;
     }
   }
-  
-  private Geometry<?> createGeometry() {
+
+  private Mesh createMesh() {
     GeometryPNT geom = new GeometryPNT(Primitive.TRIANGLES, verts.size(), triangles.size() * 3);
     VertexPNT v = new VertexPNT();
 
     if (vt.size() == 0) {
       System.out.println("TODO: no tex coord, return geomPN");
     }
-    
+
     for (Vertex objVertex : verts) {
       v.position(objVertex.position);
       v.normal(objVertex.normal.normalized());
       v.texCoords(objVertex.texCoords);
       geom.putVertex(v);
     }
-    
+
     for (Triangle objTriangle : triangles) {
       geom.putIndex(objTriangle.a);
       geom.putIndex(objTriangle.b);
       geom.putIndex(objTriangle.c);
     }
-
-    return geom;
+    
+    return new Mesh(geom, parts);
+  }
+  
+  private void endCurrentPart() {
+    currentPart.numElements = triangles.size() * 3 - currentPart.offset;
+    if (currentPart.numElements > 0) {
+      parts.add(currentPart);
+    }
   }
 
   private void parseLine(String line) {
@@ -125,6 +141,21 @@ public class ObjLoader {
       map = getMap();
     } else if (tokens[0].equals("f")) {
       parseFace(tokens);
+    } else if (tokens[0].equals("usemtl")) {
+      endCurrentPart();
+      for (Map<String, Material> lib : mtlLibs) {
+        Material libMaterial = lib.get(tokens[1]);
+        if (libMaterial != null) {
+          currentPart = new MeshPart(libMaterial, triangles.size() * 3, 0);
+          break;
+        }
+      }
+    } else if (tokens[0].equals("mtllib")) {
+      for (int i = 1; i < tokens.length; i++) {
+        Map<String, Material> lib = new MaterialLibraryLoader().load(new File(root, tokens[i]));
+        if (lib != null)
+          mtlLibs.add(lib);
+      }
     }
   }
 
@@ -212,7 +243,6 @@ public class ObjLoader {
   }
 }
 
-/** Stores a unique vertex in the output */
 class Vertex {
   Vec3f position;
   Vec2f texCoords;
@@ -220,9 +250,60 @@ class Vertex {
   int   index;
 }
 
-/** Stores vertex indices */
 class Triangle {
   int a, b, c;
+}
+
+class MaterialLibraryLoader {
+
+  Map<String, Material> lib = new HashMap<String, Material>();
+  PhongMaterial         material;
+
+  Map<String, Material> load(File libFile) {
+    try {
+      BufferedReader br = new BufferedReader(new FileReader(libFile));
+      String line;
+      while ((line = br.readLine()) != null) {
+        parseLine(line);
+      }
+      br.close();
+
+      return lib;
+
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+      return null;
+    }
+  }
+
+  void parseLine(String line) {
+    if (line.isEmpty())
+      return;
+    
+    String[] tokens = new StringSplitter().split(line);
+    if (tokens[0].equals("newmtl")) {
+      lib.put(tokens[1], material = new PhongMaterial());
+    } else if (tokens[0].equals("Ka")) {
+      Float r = Float.parseFloat(tokens[1]);
+      Float g = Float.parseFloat(tokens[2]);
+      Float b = Float.parseFloat(tokens[3]);
+      material.ambient = new Vec4f(r, g, b, 1);
+    } else if (tokens[0].equals("Kd")) {
+      Float r = Float.parseFloat(tokens[1]);
+      Float g = Float.parseFloat(tokens[2]);
+      Float b = Float.parseFloat(tokens[3]);
+      material.diffuse = new Vec4f(r, g, b, 1);
+    } else if (tokens[0].equals("Ks")) {
+      Float r = Float.parseFloat(tokens[1]);
+      Float g = Float.parseFloat(tokens[2]);
+      Float b = Float.parseFloat(tokens[3]);
+      material.specular = new Vec4f(r, g, b, 1);
+    } else if (tokens[0].equals("Ns")) {
+      material.shininess = (int)(128*(Float.parseFloat(tokens[1])/1000f));
+    } else if (tokens[0].equals("map_Kd")) {
+      // texture TODO
+    }
+  }
 }
 
 /** Java's string.split is too slow, and OBJ input is all whitespace delimited. */

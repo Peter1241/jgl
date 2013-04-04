@@ -13,12 +13,15 @@ import jgl.shading.Material;
  * @author justin
  */
 public class Mesh {
-  
-  public static class MeshPart {
-    Material material;
-    int      offset;
-    int      numElements;
 
+  public static class MeshPart {
+    public Material material;
+    public int      offset;
+    public int      numElements;
+
+    public MeshPart() {
+    }
+    
     public MeshPart(Material material, int offset, int numElements) {
       this.material = material;
       this.offset = offset;
@@ -50,22 +53,22 @@ public class Mesh {
       part.material.enable(gl);
       if (indexed) {
         gl.glDrawElements(
-            geometry.getPrimitive().glConstant, 
-            part.numElements, 
-            geometry.getIndexType().glConstant, 
-            geometry.getIndices().position(part.offset));
+            geometry.getPrimitive().glConstant,
+            part.numElements,
+            geometry.getIndexType().glConstant,
+            geometry.getIndices().position(part.offset * geometry.getIndexType().size));
       } else {
         gl.glDrawArrays(geometry.getPrimitive().glConstant, part.offset, part.numElements);
       }
       part.material.disable(gl);
     }
-    
+
     geometry.getVertexType().endArrays(gl);
   }
-  
+
   public void drawVBO(GL2 gl) {
   }
-  
+
   public void dispose(GL2 gl) {
     for (MeshPart part : parts)
       part.material.dispose(gl);
