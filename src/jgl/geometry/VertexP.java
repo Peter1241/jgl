@@ -19,38 +19,22 @@ import jgl.math.vector.Vec3f;
  * @author justin
  */
 public class VertexP implements Vertex {
-
-  /**
-   * Geometry with the VertexP type
-   */
-  public static class GeometryP extends Geometry<VertexP> {
-    public GeometryP(Primitive type, int numVertices, int numIndices) {
-      super(type, VertexP.CONSTRUCTOR, numVertices, numIndices);
-    }
-  }
-  
-  public static final Constructor<VertexP> CONSTRUCTOR = new Constructor<VertexP>() {
-    public VertexP construct() {
-      return new VertexP();
-    }
-  };
   
   public Vec3f position = new Vec3f(0);
   
   public VertexP position(float x, float y, float z) {
-    position.x = x;
-    position.y = y;
-    position.z = z;
+    position.set(x, y, z);
     return this;
   }
   
   public VertexP position(ConstVec3f p) {
-    return position(p.x(), p.y(), p.z());
+    position.set(p);
+    return this;
   }
   
   @Override
   public int stride() {
-    return 12;  // 3 floats * 4 bytes per float
+    return 12;
   }
 
   @Override
@@ -93,4 +77,16 @@ public class VertexP implements Vertex {
   public void transform(Mat4f matrix) {
     position = matrix.times(position.x, position.y, position.z, 1).xyz();
   }
+  
+  public static class GeometryP extends Geometry<VertexP> {
+    public GeometryP(Primitive type, int numVertices, int numIndices) {
+      super(type, VertexP.CONSTRUCTOR, numVertices, numIndices);
+    }
+  }
+  
+  public static final Constructor<VertexP> CONSTRUCTOR = new Constructor<VertexP>() {
+    public VertexP construct() {
+      return new VertexP();
+    }
+  };
 }

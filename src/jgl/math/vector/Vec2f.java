@@ -238,6 +238,22 @@ public class Vec2f implements ConstVec2f {
     return this;
   }
   
+  /**
+   * Sets the x and y coordinates. Returns this vector.
+   */
+  public Vec2f set(float x, float y) {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+  
+  /**
+   * Sets the x and y coordinates using (v.x, v.y). Returns this vector.
+   */
+  public Vec2f set(ConstVec2f v) {
+    return set(v.x(), v.y());
+  }
+  
   @Override
   public float x() {
     return x;

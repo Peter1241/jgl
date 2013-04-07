@@ -201,6 +201,23 @@ public class Vec3d implements ConstVec3d {
     z = v.z;
     return this;
   }
+  
+  /**
+   * Sets the x, y, and z coordinates. Returns this vector.
+   */
+  public Vec3d set(double x, double y, double z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    return this;
+  }
+  
+  /**
+   * Sets the x, y, and z coordinates using (v.x, v.y, v.z). Returns this vector.
+   */
+  public Vec3d set(ConstVec3d v) {
+    return set(v.x(), v.y(), v.z());
+  }
 
   @Override
   public double x() {

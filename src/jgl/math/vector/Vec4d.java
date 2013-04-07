@@ -199,6 +199,24 @@ public class Vec4d implements ConstVec4d {
     w = -w;
     return this;
   }
+  
+  /**
+   * Sets the x, y, z, and w coordinates. Returns this vector.
+   */
+  public Vec4d set(double x, double y, double z, double w) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.w = w;
+    return this;
+  }
+  
+  /**
+   * Sets the x, y, z, and w coordinates using (v.x, v.y, v.z, v.w). Returns this vector.
+   */
+  public Vec4d set(ConstVec4d v) {
+    return set(v.x(), v.y(), v.z(), v.w());
+  }
 
   @Override
   public double x() {

@@ -241,6 +241,22 @@ public class Vec2d implements ConstVec2d {
     y = v.y;
     return this;
   }
+  
+  /**
+   * Sets the x and y coordinates. Returns this vector.
+   */
+  public Vec2d set(double x, double y) {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+  
+  /**
+   * Sets the x and y coordinates using (v.x, v.y). Returns this vector.
+   */
+  public Vec2d set(ConstVec2d v) {
+    return set(v.x(), v.y());
+  }
 
   @Override
   public double x() {

@@ -199,6 +199,24 @@ public class Vec4f implements ConstVec4f {
     w = -w;
     return this;
   }
+  
+  /**
+   * Sets the x, y, z, and w coordinates. Returns this vector.
+   */
+  public Vec4f set(float x, float y, float z, float w) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.w = w;
+    return this;
+  }
+  
+  /**
+   * Sets the x, y, z, and w coordinates using (v.x, v.y, v.z, v.w). Returns this vector.
+   */
+  public Vec4f set(ConstVec4f v) {
+    return set(v.x(), v.y(), v.z(), v.w());
+  }
 
   @Override
   public float x() {

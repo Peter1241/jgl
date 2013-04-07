@@ -201,6 +201,23 @@ public class Vec3f implements ConstVec3f {
     z = v.z;
     return this;
   }
+  
+  /**
+   * Sets the x, y, and z coordinates. Returns this vector.
+   */
+  public Vec3f set(float x, float y, float z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    return this;
+  }
+  
+  /**
+   * Sets the x, y, and z coordinates using (v.x, v.y, v.z). Returns this vector.
+   */
+  public Vec3f set(ConstVec3f v) {
+    return set(v.x(), v.y(), v.z());
+  }
 
   @Override
   public float x() {
