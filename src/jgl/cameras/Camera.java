@@ -97,19 +97,19 @@ public class Camera {
   }
 
   public void translateRight(float units) {
-    translate(forward.times(units));
+    translate(right.times(units));
   }
 
   public void translateLeft(float units) {
-    translate(forward.times(-units));
+    translate(right.times(-units));
   }
 
   public void translateUp(float units) {
-    translate(forward.times(units));
+    translate(up.times(units));
   }
 
   public void translateDown(float units) {
-    translate(forward.times(-units));
+    translate(up.times(-units));
   }
 
   public void translate(ConstVec3f t) {
