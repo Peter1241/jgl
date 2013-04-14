@@ -7,8 +7,8 @@ import java.awt.Point;
 
 import javax.media.opengl.GL;
 
-import jgl.math.vector.ConstVec4f;
-import jgl.math.vector.Vec3f;
+import jgl.math.vector.ConstVec2f;
+import jgl.math.vector.Vec2f;
 
 /**
  * Defines a rectangle that transforms normalized device coordinates to window coordinates.
@@ -89,15 +89,33 @@ public class Viewport {
   }
 
   /**
-   * Transforms normalized device coordinates to window coordinates
+   * Transforms normalized device coordinates (NDC) to window coordinates. Normalized device
+   * coordinates are in [-1, 1], where -1 is at the left/bottom and +1 is at the right/top; the
+   * center of the viewport in NDC is (0,0). The window coordinates are use the bottom-left as the
+   * origin.
+   * 
+   * @param ndcX - x-coordinate in normalized device space
+   * @param ndcY - y-coordinate in normalized device space
    */
-  public Vec3f transform(ConstVec4f ndc, float near, float far) {
-    float hW = width / 2;
-    float hH = height / 2;
-    float wx = hW * ndc.x() + (this.x + hW);
-    float wy = hH * ndc.y() + (this.y + hH);
-    float wz = (far - near) / 2 * ndc.z() + (far + near) / 2;
-    return new Vec3f(wx, wy, wz);
+  public Point ndcToWindow(ConstVec2f ndc) {
+    int winX = (int) (ndc.x() + 1) * (width / 2) + x;
+    int winY = (int) (ndc.y() + 1) * (height / 2) + y;
+    return new Point(winX, winY);
+  }
+
+  /**
+   * Transform window space coordinates to normalized device coordinates (NDC). Normalized device
+   * coordinates are in [-1, 1], where -1 is at the left/bottom and +1 is at the right/top; the
+   * center of the viewport in NDC is (0,0). The window coordinates are use the bottom-left as the
+   * origin.
+   * 
+   * @param winX - x-coordinate in window space
+   * @param winY - y-coordinate in window space
+   */
+  public Vec2f windowToNDC(Point winCoords) {
+    float ndcX = (float) (winCoords.x - x) / (width / 2) - 1;
+    float ndcY = (float) (winCoords.y - y) / (height / 2) - 1;
+    return new Vec2f(ndcX, ndcY);
   }
 
   public boolean equals(Viewport that) {

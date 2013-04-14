@@ -3,8 +3,11 @@
  *******************************************************************************/
 package jgl.math.vector;
 
+import java.awt.Point;
+
 import jgl.cameras.Camera;
 import jgl.core.Viewport;
+import jgl.math.geometry.Ray;
 
 /**
  * Transformation matrix functions.
@@ -198,20 +201,31 @@ public final class Transform {
   }
 
   /**
-   * Transforms a point from world coordinates to window coordinates. The window coordinate z value
-   * is the depth in 3D from -1 to +1.
+   * A view matrix defined by its forward and up vectors.
    */
-  public static Vec3f worldToWindow(Viewport viewport, Mat4f projection, Mat4f view, Vec3f p) {
-    Vec4f pClip = projection.times(view.times(new Vec4f(p.x, p.y, p.z, 1)));
-    return viewport.transform(pClip.divide(pClip.w), -1, 1);
+  public static Mat4f view(ConstVec3f forward, ConstVec3f up, ConstVec3f eye) {
+    Vec3f left = up.cross(forward);
+    return new Mat4f(new Vec4f(left, 0), new Vec4f(up, 0), new Vec4f(forward, 0), new Vec4f(eye, 1));
   }
-  
+
   /**
-   * Transforms a point from world coordinates to window coordinates. The window coordinate z value
-   * is the depth in 3D from -1 to +1.
+   * Transforms a point in world coordinates to a pixel in window coordinates.
    */
-  public static Vec3f worldToWindow(Viewport viewport, Camera camera, Vec3f p) {
-    Vec4f pClip = camera.getProjection().times(camera.getView().times(new Vec4f(p.x, p.y, p.z, 1)));
-    return viewport.transform(pClip.divide(pClip.w), -1, 1);
+  public static Point worldToWindow(Camera camera, Viewport viewport, Vec3f worldCoords) {
+    Vec4f clip = camera.getProjection().times(camera.getView().times(new Vec4f(worldCoords, 1)));
+    Vec2f ndc = clip.over(clip.w).xy();
+    return viewport.ndcToWindow(ndc);
+  }
+
+  /**
+   * Transforms a pixel in window coordinates to a ray in world coordinates.
+   */
+  public static Ray windowToWorld(Camera camera, Viewport viewport, Point windowCoords) {
+    Vec2f ndc = viewport.windowToNDC(windowCoords);
+    Vec4f n = camera.getViewInverse().times(camera.getProjectionInverse().times(new Vec4f(ndc.x, ndc.y, -1, 1)));
+    n.divide(n.w);
+    Vec4f f = camera.getViewInverse().times(camera.getProjectionInverse().times(new Vec4f(ndc.x, ndc.y, 1, 1)));
+    f.divide(f.w);
+    return new Ray(n.xyz(), f.minus(n).xyz().normalized());
   }
 }

@@ -25,6 +25,7 @@ public class Camera {
   protected Mat4f view;
   protected Mat4f projection;
   protected Mat4f viewInverse;
+  protected Mat4f projectionInverse;
   
   public Camera() {
     setView(Transform.identity());
@@ -62,6 +63,10 @@ public class Camera {
   public Mat4f getProjection() {
     return projection;
   }
+  
+  public Mat4f getProjectionInverse() {
+    return projectionInverse;
+  }
 
   public Mat4f getView() {
     return view;
@@ -73,6 +78,7 @@ public class Camera {
 
   public void setProjection(Mat4f projection) {
     this.projection = projection;
+    this.projectionInverse = projection.inverse();
   }
 
   public void setView(Mat4f view) {
