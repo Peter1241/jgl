@@ -178,4 +178,8 @@ public class Program {
       id = -1;
     }
   }
+  
+  public void param(GL2GL3 gl, int name, int value) {
+    gl.glProgramParameteri(id, name, value);
+  }
 }
