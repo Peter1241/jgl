@@ -79,6 +79,7 @@ public class OrbitController implements KeyListener, MouseWheelListener {
 
   public void setRadius(float radius) {
     this.radius.value = radius;
+    updateView();
   }
   
   public void setAzimuth(float azimuth) {
