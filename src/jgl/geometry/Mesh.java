@@ -45,6 +45,10 @@ public class Mesh {
     this.parts = parts;
     indexed = geometry.numIndices() > 0;
   }
+  
+  public Geometry<?> getGeometry() {
+    return geometry;
+  }
 
   public void drawArrays(GL2 gl) {
     geometry.getVertexType().startArrays(gl, geometry.getVertices());

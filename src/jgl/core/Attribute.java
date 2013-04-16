@@ -3,6 +3,8 @@
  *******************************************************************************/
 package jgl.core;
 
+import java.nio.Buffer;
+
 import javax.media.opengl.GL2GL3;
 
 import jgl.math.vector.ConstVec2f;
@@ -30,6 +32,10 @@ public class Attribute {
 
   public void set(GL2GL3 gl, boolean normalized, int stride, long ptr) {
     gl.glVertexAttribPointer(index, size, type, normalized, stride, ptr);
+  }
+  
+  public void set(GL2GL3 gl, boolean normalized, int stride, Buffer vertices) {
+    gl.glVertexAttribPointer(index, size, type, normalized, stride, vertices);
   }
 
   public void set(GL2GL3 gl, float x) {
