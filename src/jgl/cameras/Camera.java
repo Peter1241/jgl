@@ -141,8 +141,8 @@ public class Camera {
   }
   
   public void rotateZ(double radians) {
-    view = view.times(Transform.rotationX(radians));
-    viewInverse = Transform.rotationX(-radians).times(viewInverse);
+    view = view.times(Transform.rotationZ(radians));
+    viewInverse = Transform.rotationZ(-radians).times(viewInverse);
     updateVectors();
   }
   
